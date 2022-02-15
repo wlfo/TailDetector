@@ -1,0 +1,519 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "DetectViewCoordinator.loadContext(annotations:):DetectViewCoordinator.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "annotations.count">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "DetectViewCoordinator.calculateInstruction():DetectViewCoordinator.swift">
+      </ContextState>
+      <ContextState
+         contextName = "MapViewCoordinator.mapView(_:didUpdate:):MapViewCoordinator.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "map.userTrackingMode">
+            </PersistentString>
+            <PersistentString
+               value = "map.showsUserLocation">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "PacketProcessor.detect(currentPacket:formerHashTable:currentHashTable:):PacketProcessor.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "cont=false">
+            </PersistentString>
+            <PersistentString
+               value = "array[0]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #2 in closure #1 in closure #2 in closure #1 in ContentView.body.getter:ContentView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "AnnotationData.init(context:longitude:latitude:title:index:uuid:):AnnotationData.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "uuid.uuidString">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in closure #5 in closure #1 in CarView.body.getter:CarView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "loc">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in PacketProcessor.detect(currentPacket:formerHashTable:currentHashTable:):PacketProcessor.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "placemarks?.subThoroughfare">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "PacketProcessorTests.testDetect_TwoCarsShortIsTheCorrect():PacketProcessorTests.swift">
+      </ContextState>
+      <ContextState
+         contextName = "DetectViewCoordinator.drop(location:):DetectViewCoordinator.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.initialUserLocation.coordinate">
+            </PersistentString>
+            <PersistentString
+               value = "detectPointIndex">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "MapViewCoordinator.mapView(_:viewFor:):MapViewCoordinator.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "dpList.count">
+            </PersistentString>
+            <PersistentString
+               value = "dpAnnotation">
+            </PersistentString>
+            <PersistentString
+               value = "map.annotations.count">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "PTCommandInterface.handleCommand(command:):PTCommandInterface.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "commandResult.is_up">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #3 in SettingsView.body.getter:SettingsView.swift">
+      </ContextState>
+      <ContextState
+         contextName = "PacketProcessorTests.testDetect_LongestMatch2():PacketProcessorTests.swift">
+      </ContextState>
+      <ContextState
+         contextName = "PacketProcessor.setPacketForPreview(uuid:):PacketProcessor.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "revivePreview == true">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in MapViewCoordinator.addAnnotation(gesture:):MapViewCoordinator.swift">
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in closure #1 in closure #1 in CameraStreamView.body.getter:CameraStreamView.swift">
+      </ContextState>
+      <ContextState
+         contextName = "MapViewCoordinator.buttonUpdate(_:):MapViewCoordinator.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "sender.superview">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in DetectViewCoordinator.loadAnnotations():DetectViewCoordinator.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "PacketProcessorTests.testProcessPacket_detect_carNotInDPoints():PacketProcessorTests.swift">
+      </ContextState>
+      <ContextState
+         contextName = "DetectViewCoordinator.isInRadius(coord1:coord2:radius:):DetectViewCoordinator.swift">
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in closure #1 in CameraStreamView.body.getter:CameraStreamView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "ptvi.image != nil">
+            </PersistentString>
+            <PersistentString
+               value = "self.disableButton">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "MapViewCoordinator.buttonTapped(_:):MapViewCoordinator.swift">
+      </ContextState>
+      <ContextState
+         contextName = "PacketProcessor.addAndDetect(licensePlate:detectPointIndex:):PacketProcessor.swift">
+      </ContextState>
+      <ContextState
+         contextName = "closure #2 in SettingsView.body.getter:SettingsView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.listOfOne.count">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "DetectViewCoordinator.locationManager(_:didUpdateLocations:):DetectViewCoordinator.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "2.9.rounded(.down)">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "DetectViewCoordinator.removeDetectionPointIfThere():DetectViewCoordinator.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.dpList4Instructions.first">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "MapViewCoordinator.addAnnotation(gesture:):MapViewCoordinator.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "dpList.count">
+            </PersistentString>
+            <PersistentString
+               value = "dpAnnotation.index">
+            </PersistentString>
+            <PersistentString
+               value = "annotationData.uuid">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "DetectView.launchPacket(packet:delay:):DetectView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.mpCoordinator.getUserLocation().coordinate">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "MapViewCoordinator.setDecenter(decentered:):MapViewCoordinator.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "map.subviews.count">
+            </PersistentString>
+            <PersistentString
+               value = "map.showsUserLocation">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #2 in EmptyView.body.getter:EmptyView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "Character(UnicodeScalar(jsonData[2810]))">
+            </PersistentString>
+            <PersistentString
+               value = "Character(UnicodeScalar(jsonData[2806]))">
+            </PersistentString>
+            <PersistentString
+               value = "Character(UnicodeScalar(jsonData[2807]))">
+            </PersistentString>
+            <PersistentString
+               value = "Character(UnicodeScalar(49))">
+            </PersistentString>
+            <PersistentString
+               value = "Character(UnicodeScalar(jsonData[2808]))">
+            </PersistentString>
+            <PersistentString
+               value = "Character(UnicodeScalar(jsonData[2809]))">
+            </PersistentString>
+            <PersistentString
+               value = "EmptyView.myLog">
+            </PersistentString>
+            <PersistentString
+               value = "jsonData[2808]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #2 in closure #1 in closure #2 in closure #1 in EditView.body.getter:EditView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "mapView">
+            </PersistentString>
+            <PersistentString
+               value = "listMapTypes[value]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "fetchAllAnnotations #1 (completion:) in PacketProcessor.saveData(_:detectType:):PacketProcessor.swift">
+      </ContextState>
+      <ContextState
+         contextName = "PacketProcessorTests.testDetect_FirstRightIsLongest():PacketProcessorTests.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "pp.detections[1][0].1">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in closure #1 in closure #1 in CamerasView.body.getter:CamerasView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "camera.deviceSerialNumber">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #2 in closure #1 in closure #1 in CameraStreamView.body.getter:CameraStreamView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "ptvi.image">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "PacketProcessorTests.testDetect_OnlyMoreThan3LettersApply():PacketProcessorTests.swift">
+      </ContextState>
+      <ContextState
+         contextName = "PacketProcessor.addFirstDetect(packet:currentHashTable:):PacketProcessor.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "hashTables[0]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in MapViewCoordinator.notifyUpdate(gesture:):MapViewCoordinator.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "gesture.name">
+            </PersistentString>
+            <PersistentString
+               value = "gesture.view">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "AnnotationData.init(context:longitude:latitude:title:index:):AnnotationData.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "uuid">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in DetectViewCoordinator.calculateInstruction():DetectViewCoordinator.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "steps[1].instructions">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "DetectViewCoordinator.notifyUpdate(gesture:):DetectViewCoordinator.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #2 in closure #1 in DaemonsRowView.body.getter:DaemonsRowView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "[commandPrefix, dateString].joined(separator: &quot; &quot;)">
+            </PersistentString>
+            <PersistentString
+               value = "camerasMap.endIndex">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "PacketProcessor.processPacket(packet:):PacketProcessor.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "dropDelegate.drop(location: location).0">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "PacketProcessor.isRecent(packet:currentHashTable:secInterval:):PacketProcessor.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "packet.licensePlateNumber">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "DetectPointAnnotation.init(annotationData:):DetectPointAnnotation.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "annotationData.uuid">
+            </PersistentString>
+            <PersistentString
+               value = "self.title">
+            </PersistentString>
+            <PersistentString
+               value = "annotationData.title">
+            </PersistentString>
+            <PersistentString
+               value = "DetectPointAnnotation.FENCE_RADIUS">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in closure #1 in closure #1 in closure #1 in CamerasView.body.getter:CamerasView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "cameras.count">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in PacketProcessor.saveData(_:detectType:):PacketProcessor.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "detectedObjects[0].detectType">
+            </PersistentString>
+            <PersistentString
+               value = "ld.ofDetectedObject.locations">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in closure #1 in closure #2 in closure #1 in closure #1 in DetectView.body.getter:DetectView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.packetProcessor.revivePreview">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "DetectViewCoordinator.mapView(_:didUpdate:):DetectViewCoordinator.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "Date()">
+            </PersistentString>
+            <PersistentString
+               value = "self.timeStamp">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #3 in PacketProcessor.detect(substrings:currentPacket:formerHashTable:currentHashTable:):PacketProcessor.swift">
+      </ContextState>
+      <ContextState
+         contextName = "PacketProcessorTests.testDetect_FirstLeftIsLongest():PacketProcessorTests.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "pp.detections[1][0].0">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "PacketProcessor.detect(substrings:currentPacket:formerHashTable:currentHashTable:):PacketProcessor.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "substrings[i]">
+            </PersistentString>
+            <PersistentString
+               value = "substrings[0]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "MapViewCoordinator.handleAnnotation(annotationToHandle:handleList:):MapViewCoordinator.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "dpList.count">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "PacketProcessorTests.testDetect_5Matches():PacketProcessorTests.swift">
+      </ContextState>
+      <ContextState
+         contextName = "ReportViewCoordinator.addAnnotations(detectedObject:):ReportViewCoordinator.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "detectedObject.locationArray">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in PacketProcessor.firstSave(_:detectType:):PacketProcessor.swift">
+      </ContextState>
+      <ContextState
+         contextName = "DetectViewCoordinator.mapView(_:viewFor:):DetectViewCoordinator.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "annotation is DetectPointAnnotation">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "MapViewCoordinator.buttonDelete(_:):MapViewCoordinator.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "dpList.count">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #2 in closure #1 in closure #1 in SettingsView.body.getter:SettingsView.swift">
+      </ContextState>
+      <ContextState
+         contextName = "MapViewCoordinator.mapView(_:didSelect:):MapViewCoordinator.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "view.annotation">
+            </PersistentString>
+            <PersistentString
+               value = "appState">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in DaemonsView.body.getter:DaemonsView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "pt.daemon">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "DetectPointAnnotation.uuid.setter:DetectPointAnnotation.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "value">
+            </PersistentString>
+            <PersistentString
+               value = "annotationData.uuid">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in EmptyView.body.getter:EmptyView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.peertalk.group">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>
