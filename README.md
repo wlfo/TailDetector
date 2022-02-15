@@ -18,7 +18,7 @@ Nvidia produces very popular developer kits suitable for missions like this. I a
 This single-board computer is actually the core of the system. Within this component the following functionality is managed:
 * Transfering the streamed video into a "number plate recognition" service via Gstreamer pipelines.
 * Automation of number plate recognition functionality using [Rekor Scout OpenALPR agent](https://www.openalpr.com/software/scout) (daemon). 
-* Mediation layer (python process) for orchestration and mediation between all subsystems on the sbc: cameras functionality, daemons, two-way communication with ios applicarion via [peertalk protocol implementaion](https://github.com/rsms/peertalk) etc.
+* Mediation layer (python process) for orchestration and mediation between all subsystems on the sbc: cameras functionality, daemons, two-way communication with ios applicarion via [peertalk protocol implementaion](#peertalk-protocol-implementation) etc.
 * Multiplexing connections over USB to the iOS device using [USBMUXD](https://github.com/libimobiledevice/usbmuxd) daemon. 
 
 
@@ -31,5 +31,13 @@ Here, too, the two-way communication iOS-Linux is done by USBMUXD. Although wire
   <img src="readme/Scheme.png" width="800" title="hover text">
 </p>
 
+## Peertalk Protocol Implementation
+Seeking for secured wired communication between the iOS application and the core of the system (the Jetson Xavier), I encountered a pretty simple solution: USBMUXD and peertalk.
 
+For the core system (Jetson) I extended the usbmux python script of [Hector Martin "marcan"](https://code.google.com/archive/p/iphone-dataprotection/source/default/source) to support three different channels of communication between two devices (iOS device and Linux device):
+* Command - The iOS Application sends control messages directed to the Mediation subsystem on the Jetson device. The Mediation subsystem sends an appropriate response.
+* Video - The iOS Application receives a stream of video frames from a selected single camera using the Mediation subsystem as a mediator. This feature enables camera preview prior the detection phase. 
+* Vehicle - All vehicle recognition data produced by the OpenALPR agent encapsulated using the Mediation subsystem and being sent to the iOS application for further processing. 
 
+[David House](https://github.com/davidahouse/peertalk-python) script example was very helpful in demonstrating how to create a communication channel using marcan's usbmux implementation. 
+Finally, in order to implement these three channels in swift (on iOS device) I am using [Rasmus](https://github.com/rsms/peertalk) implementation of Cocoa library for communicating over USB. I also extended his PTChannelDelegate to support the three peertalk channels mentioned. 
