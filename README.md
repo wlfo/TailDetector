@@ -23,7 +23,8 @@ This single-board computer is actually the core of the system. Within this compo
 
 
 ## Ios Application
-In order to command and control the core system
+The ios application has capabilities such as: drawing a detection route, starting a surveillance detection phase and finally getting corresponding alerts.
+Here, too, the two-way communication iOS-Linux is done by USBMUXD. Although wireless interfaces (e.g WiFi) for maintaining this communication could be much simpler and intuitive, I chose to implement the entire iPhone-Jetson communication using peertalk over USB connection (i.e "closed system"). This choice can be considered as one more step toward reducing possible attack surface. In this decision exist at least one downside: the ios device must be connected to the jetson during all the detection phase.
 
 # General scheme of the system
 <p align="center">
