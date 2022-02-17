@@ -41,3 +41,34 @@ For the core system (Jetson) I extended the usbmux python script of [Hector Mart
 
 [David House](https://github.com/davidahouse/peertalk-python) script example was very helpful in demonstrating how to create a communication channel using marcan's usbmux implementation. 
 Finally, in order to implement these three channels in swift (on iOS device) I am using [Rasmus](https://github.com/rsms/peertalk) implementation of Cocoa library for communicating over USB. I also extended his PTChannelDelegate to support the three peertalk channels mentioned. 
+
+# Installation Guide
+
+## Pylon Camera Software Suite
+Working with [Basler cameras](https://www.baslerweb.com/en/embedded-vision/embedded-vision-portfolio/embedded-vision-cameras/) require using pylon software. In this project I created two utilities using pylon c++ API. Pylon also support python (pypylon), but I have found it more convenient to use their c++ API. 
+These two utilities are responsible for frame grabbing: [RegularGrab](Pylon/SingleCamera/RegularGrab.cpp) grabs frames from a given camera (using camera serial number as an argument), manipulate the grabbed frames and finally writes frames into v4l2 loop device (/dev/video device); 
+[Grab_MultipleCameras](Pylon/MultipleCameras/Grab_MultipleCameras.cpp) get a list of pairs (camera's serial number, video loop device). It grabs frames from all cameras and writes frames to the corresponding video loop device.  
+Software suite for Linux x86 (64 Bit) can be found here: [pylon 6.3.0 Camera Software Suite](https://www.baslerweb.com/en/sales-support/downloads/software-downloads/software-pylon-6-3-0-linux-x86-64bit/). Pylon's default installation folder is `\opt\pylon`. Along C/C++ code samples, Pylon provides very useful utility for cameras viewing, capturing and configuring: `/etc/pylon/bin/pylonviewer`.  
+
+## V4l2loopback
+In order to stream all grabbed frames from cameras to the OpenALPR daemon (via GStreamer pipeline as the daemon's requirement), we need to use v4l2 loopback devices.
+Installation instruction can be found here [v4l2loopback](https://github.com/umlaeute/v4l2loopback).
+In case of four cameras I am submitting this simple line after installation is finished.
+
+    # modprobe v4l2loopback devices=4
+
+Check that four devices have been created
+~~~    
+crw-rw----+ 1 root video 81, 0 Feb 17 11:50 /dev/video0
+crw-rw----+ 1 root video 81, 1 Feb 17 11:50 /dev/video1
+crw-rw----+ 1 root video 81, 2 Feb 17 11:50 /dev/video2
+crw-rw----+ 1 root video 81, 3 Feb 17 11:50 /dev/video3
+~~~~
+
+## USBMUXD
+See [libimobiledevice](https://libimobiledevice.org/), a cross-platform library to communicate with iOS devices natively.
+Plug your iOS device and perform a simple check to ensure installation:
+~~~
+# ideviceinfo -k ProductVersion
+15.3.1
+~~~~
