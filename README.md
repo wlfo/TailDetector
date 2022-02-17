@@ -112,6 +112,7 @@ number of buffers (the maximum frame rate of the camera) * camera Resolution * b
 usbfs_memory_mb = 4 * (1280*720) * 3 * 8 * 54 =~ 600MB. In case of memory shortage 22 fps are sufficient, hence usbfs_memory_mb can be defined to 256MB.  
 
 ~~~
+# video_capture.service
 [Unit]
 Description=Create /dev/video* entries and define usbfs_memory
 
