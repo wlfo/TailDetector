@@ -72,3 +72,35 @@ Plug your iOS device and perform a simple check to ensure installation:
 # ideviceinfo -k ProductVersion
 15.3.1
 ~~~~
+
+## Startup services
+Naturally TailDetector is designed to operate as a headless system. In order to support this the system (the Jetson) must initiate itself and communicate with attached iOS devices. 
+There exist two services for this task:
+
+### [usb_listener.service]()
+
+This service is responsible for restarting the Mediation subsystem every time the Jetson is turning on.
+
+~~~
+# usb_listener.service
+[Unit]
+Description=Start usb_listener.py
+
+...
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python3 ~/TailDetector/Mediation/usb_listener.py
+StandardInput=tty-force
+Restart=on-failure
+
+...
+~~~~
+
+The file should be copied to `/lib/systemd/system`. After copying, run the following lines:
+
+    # systemctl status usb_listener.service
+
+    # systemctl enable usb_listener.service
+
+    # systemctl start usb_listener.service
