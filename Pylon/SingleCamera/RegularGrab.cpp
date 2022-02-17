@@ -169,7 +169,7 @@ int main(int argc, char *argv[])
 		}
 
 
-		camera.MaxNumBuffer = 10;
+		camera.MaxNumBuffer = 54;//10;
 		CImageFormatConverter formatConverter;
 		formatConverter.OutputPixelFormat = PixelType_RGB8packed;
 		CPylonImage pylonImage;

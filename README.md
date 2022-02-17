@@ -16,9 +16,9 @@ I am using Basler dart cameras with USB 3.0 interface. [According to Basler](htt
 Nvidia produces very popular developer kits suitable for missions like this. I am using Jetson Xavier NX Developer Kit. Xavier NX has very impressive GPU features: 384 CUDA cores + 48 Tensor cores Volta GPU, 21 TOPS. There are 4 USB 3.0 ports on board. For more details See [Jetson Xavier NX Developer Kit](https://developer.nvidia.com/embedded/jetson-xavier-nx-devkit).
 
 This single-board computer is actually the core of the system. Within this component the following functionality is managed:
-* Transfering the streamed video into a "number plate recognition" service via Gstreamer pipelines.
+* Transferring the streamed video into a "number plate recognition" service via Gstreamer pipelines.
 * Automation of number plate recognition functionality using [Rekor Scout OpenALPR agent](https://www.openalpr.com/software/scout) (daemon). 
-* Mediation layer (python process) for orchestration and mediation between all subsystems on the sbc: cameras functionality, daemons, two-way communication with ios applicarion via [peertalk protocol implementaion](#peertalk-protocol-implementation) etc.
+* Mediation layer (python process) for orchestration and mediation between all subsystems on the sbc: cameras functionality, daemons, two-way communication with ios application via [peertalk protocol implementaion](#peertalk-protocol-implementation) etc.
 * Multiplexing connections over USB to the iOS device using [USBMUXD](https://github.com/libimobiledevice/usbmuxd) daemon. 
 
 
@@ -77,8 +77,7 @@ Plug your iOS device and perform a simple check to ensure installation:
 Naturally TailDetector is designed to operate as a headless system. In order to support this the system (the Jetson) must initiate itself and communicate with attached iOS devices. 
 There exist two services for this task:
 
-### [usb_listener.service]()
-
+### [usb_listener.service](Startup/usb_listener.service)
 This service is responsible for restarting the Mediation subsystem every time the Jetson is turning on.
 
 ~~~
@@ -100,7 +99,29 @@ Restart=on-failure
 The file should be copied to `/lib/systemd/system`. After copying, run the following lines:
 
     # systemctl status usb_listener.service
-
     # systemctl enable usb_listener.service
-
     # systemctl start usb_listener.service
+
+### [video_capture.service](Startup/video_capture.service)
+This service is responsible for two operations:
+* Creating four v4l2 loop devices at startup and once.
+* Redefining how much USB-FS memory is needed. For Basler's cameras the process of acquiring an image is divided into three steps: 
+Image acquisition by the camera's hardware; Data transfer in which the computer receives the collected information; Image grabbing by the pylon application. USB-FS memory is where each image transferred from the camera to the computer is stored. 
+The kernel memory which is allocated for the use with USB on a typical 64-bit Ubuntu system is 16MB. This memory size should be redetermined as follows:
+number of buffers (the maximum frame rate of the camera) * camera Resolution * bit-depth * number of cameras. For example: 4 dart cameras (1280 X 720), RGB with 8 bit pixel format, 54 fps.
+usbfs_memory_mb = 4 * (1280*720) * 3 * 8 * 54 =~ 600MB. In case of memory shortage 22 fps are sufficient, hence usbfs_memory_mb can be defined to 256MB.  
+
+~~~
+[Unit]
+Description=Create /dev/video* entries and define usbfs_memory
+
+...
+
+[Service]
+Type=simple
+ExecStartPre=/sbin/modprobe videodev
+ExecStart=/sbin/insmod ~/v4l2loopback/v4l2loopback.ko devices=4
+ExecStartPost=/bin/sh -c 'echo 256 > /sys/module/usbcore/parameters/usbfs_memory_mb'
+
+...
+~~~~

@@ -10,7 +10,7 @@ StartLimitBurst=5
 Type=simple
 ExecStartPre=/sbin/modprobe videodev
 ExecStart=/sbin/insmod ~/v4l2loopback/v4l2loopback.ko devices=4
-ExecStartPost=/bin/sh -c 'echo 128 > /sys/module/usbcore/parameters/usbfs_memory_mb'
+ExecStartPost=/bin/sh -c 'echo 256 > /sys/module/usbcore/parameters/usbfs_memory_mb'
 StandardInput=tty-force
 
 [Install]
