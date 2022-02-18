@@ -126,3 +126,83 @@ ExecStartPost=/bin/sh -c 'echo 256 > /sys/module/usbcore/parameters/usbfs_memory
 
 ...
 ~~~~
+
+## OpenALPR Rekor Scout agent
+Rekor Scout is a commercial Vehicle Recognition Platform. It suited my Proof Of Concept objectives. Installation instructions can be found here: [Install Scout Agent](https://docs.rekor.ai/getting-started/rekor-scout-quick-start/install-scout-agent). I tested the agent on Ubuntu 18.04, Ubuntu 20.04 and on Nvidia Jetson Xavier NX and nano. Jetson Family is a good choice as a host due to NVIDIA GPU hardware. The Scout Agent performance can be accelerated by the GPU hardware. For this purpose Rekor maintains special binaries to work directly with NVIDIA GPU's.
+### Configurations
+
+Rekor Scout agent uses miscelaneos configuration files. 
+
+#### alprd.conf
+The primary configuration file for the Scout Agent is located in `/etc/openalpr/alprd.conf` file.
+On the Jetson Xavier NX I added these changes to override defaults:
+~~~
+# Each thread consumes an entire CPU core. Jetson Xavier has 6 cores.
+analysis_threads = 6
+
+# Wanted to start the agent via the iOS application and not automatically on the Jetson's Boot.
+auto_start_on_boot = 0
+
+# Scout automatically classifies vehicle make/model, color, and body type for each license plate group it detects.
+classify_vehicles = 1 
+
+# Every country uses a different format and size of number plate.
+country = il
+
+# Improves efficiency. The ALPR processing only analyzes frames with movement, ignoring areas of the image that have not changed.
+motion_detection = 1 
+
+motion_stickiness = 10
+parked_car_max_delta_ms = 1000
+
+# Groups similar plate numbers together in one JSON unit. 
+plate_groups_min_plates_to_group = 1
+plate_groups_time_delta_ms = 1000
+
+# Disable storing data on host
+store_plates = 0
+store_plates_maxsize_mb = 0
+store_video = 0
+store_video_maxsize_gb = 0
+
+# Disable data uploading 
+upload_data = 0
+store_plates_maxsize_gb = 0
+~~~~
+
+#### my_new_camera.conf
+
+The agent must be configured to connect to one or more camera streams to process license plates. Each camera require its configuration file in the folder `/etc/openalpr/stream.d/`.   
+
+
+~~~
+# /etc/openalpr/stream.d/dart1.conf
+stream = dart0
+camera_id = 0
+gstreamer_format = v4l2src device=/dev/video0 ! video/x-raw,format=RGB ! videoconvert ! 
+  videorate ! video/x-raw,framerate=30/1,width=1280,height=720 ! appsink name=sink max-buffers=10
+~~~~
+
+~~~
+# /etc/openalpr/stream.d/dart2.conf
+stream = dart1
+camera_id = 1
+gstreamer_format = v4l2src device=/dev/video1 ! video/x-raw,format=RGB ! videoconvert ! 
+  videorate ! video/x-raw,framerate=30/1,width=1280,height=720 ! appsink name=sink max-buffers=10
+~~~~
+
+Each video source (e.g camera, video file) needs to be configured uniquely. This GStreamer pipeline is customized to handle pulling video from a specific /dev/video device, to which image frames from [RegularGrab](Pylon/SingleCamera/RegularGrab.cpp) and from [Grab_MultipleCameras](Pylon/MultipleCameras/Grab_MultipleCameras.cpp) where written.
+
+Each License plate that was recognized and processed by Rekor Scout is displayed in the iOS application in a small area :
+
+
+
+
+a small area  
+I order to display on the iOS device license plates that were recognized by Rekor Scout ***camera_id key***  
+
+ 
+
+
+
+
