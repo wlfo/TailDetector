@@ -195,11 +195,14 @@ Each video source (e.g camera, video file) needs to be configured uniquely. This
 
 Each License plate that was recognized and processed by Rekor Scout is displayed in the iOS application in a small area :
 
+<p align="center">
+  <img src="readme/detection_phase.png" width="200" title="hover text">
+</p>
 
+Each license plate image is acompanied by the label of the specific camera that captured it. In order to support this feature I am using ***camera_id key*** to identify every camera. This key-value pair is encapsulated with all the other information created by Rekor Scout when recognizing a vehicle. This information is sent as a JSON object to 
 
-
-a small area  
-I order to display on the iOS device license plates that were recognized by Rekor Scout ***camera_id key***  
+llklklkkkskdkkd
+Rekor maintains a local Beanstalkd queue. All JSON results are placed onto this queue. Your application can grab and process the latest plate results from this queue.
 
  
 
