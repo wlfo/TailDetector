@@ -1,0 +1,17 @@
+[Unit]
+Description=Start usb_listener.py
+After=multi-user.target
+Conflicts=
+
+StartLimitIntervalSec=500
+StartLimitBurst=5
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python3 ~/TailDetector/Mediation/usb_listener.py
+StandardInput=tty-force
+Restart=on-failure
+RestartSec=5s
+
+[Install]
+WantedBy=multi-user.target

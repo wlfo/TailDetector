@@ -1,0 +1,17 @@
+[Unit]
+Description=Create /dev/video* entries and define usbfs_memory
+After=multi-user.target
+Conflicts=
+
+StartLimitIntervalSec=500
+StartLimitBurst=5
+
+[Service]
+Type=simple
+ExecStartPre=/sbin/modprobe videodev
+ExecStart=/sbin/insmod ~/v4l2loopback/v4l2loopback.ko devices=4
+ExecStartPost=/bin/sh -c 'echo 256 > /sys/module/usbcore/parameters/usbfs_memory_mb'
+StandardInput=tty-force
+
+[Install]
+WantedBy=multi-user.target
