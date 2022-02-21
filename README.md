@@ -204,8 +204,10 @@ Rekor maintains a local Beanstalkd queue. All JSON results are placed onto this 
 # iOS Application - TD
 
 <p align="center">
-  <img src="readme/edit_detect.png" width="400" title="hover text">
+  <img src="readme/Edit_Detect.png" width="400" title="hover text">
 </p>
+
+
 
 In order to support this feature I am using camera_id key to identify every camera. This key-value pair is encapsulated with all the other information created by Rekor Scout when recognizing a vehicle. This information is sent as a JSON object to
 
