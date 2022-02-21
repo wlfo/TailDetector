@@ -200,6 +200,11 @@ This GStreamer pipeline is customized to handle pulling video from a specific /d
 and from [Grab_MultipleCameras](Pylon/MultipleCameras/Grab_MultipleCameras.cpp) where written. 
 Rekor maintains a local Beanstalkd queue. All JSON results are placed onto this queue. Your application can grab and process the latest plate results from this queue.
 
+
+<p align="center">
+  <img src="readme/data_configuration.png" width="800" title="hover text">
+</p>
+
  
 # iOS Application - TD
 
