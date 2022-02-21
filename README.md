@@ -131,7 +131,7 @@ ExecStartPost=/bin/sh -c 'echo 256 > /sys/module/usbcore/parameters/usbfs_memory
 Rekor Scout is a commercial Vehicle Recognition Platform. It suited my Proof Of Concept objectives. Installation instructions can be found here: [Install Scout Agent](https://docs.rekor.ai/getting-started/rekor-scout-quick-start/install-scout-agent). I tested the agent on Ubuntu 18.04, Ubuntu 20.04 and on Nvidia Jetson Xavier NX and nano. Jetson Family is a good choice as a host due to NVIDIA GPU hardware. The Scout Agent performance can be accelerated by the GPU hardware. For this purpose Rekor maintains special binaries to work directly with NVIDIA GPU's.
 ### Configurations
 
-Rekor Scout agent uses miscelaneos configuration files. 
+Rekor Scout agent uses miscellaneous configuration files. 
 
 #### alprd.conf
 The primary configuration file for the Scout Agent is located in `/etc/openalpr/alprd.conf` file.
