@@ -42,7 +42,7 @@ For the core system (Jetson) I extended the usbmux python script of [Hector Mart
 [David House](https://github.com/davidahouse/peertalk-python) script example was very helpful in demonstrating how to create a communication channel using marcan's usbmux implementation. 
 Finally, in order to implement these three channels in swift (on iOS device) I am using [Rasmus](https://github.com/rsms/peertalk) implementation of Cocoa library for communicating over USB. I also extended his PTChannelDelegate to support the three peertalk channels mentioned. 
 
-# Installation Guide
+# Installation Guide (Jetson Xavier NX)
 
 ## Pylon Camera Software Suite
 Working with [Basler cameras](https://www.baslerweb.com/en/embedded-vision/embedded-vision-portfolio/embedded-vision-cameras/) require using pylon software. In this project I created two utilities using pylon c++ API. Pylon also support python (pypylon), but I have found it more convenient to use their c++ API. 
@@ -131,7 +131,7 @@ ExecStartPost=/bin/sh -c 'echo 256 > /sys/module/usbcore/parameters/usbfs_memory
 Rekor Scout is a commercial Vehicle Recognition Platform. It suited my Proof Of Concept objectives. Installation instructions can be found here: [Install Scout Agent](https://docs.rekor.ai/getting-started/rekor-scout-quick-start/install-scout-agent). I tested the agent on Ubuntu 18.04, Ubuntu 20.04 and on Nvidia Jetson Xavier NX and nano. Jetson Family is a good choice as a host due to NVIDIA GPU hardware. The Scout Agent performance can be accelerated by the GPU hardware. For this purpose Rekor maintains special binaries to work directly with NVIDIA GPU's.
 ### Configurations
 
-Rekor Scout agent uses miscelaneos configuration files. 
+Rekor Scout agent uses miscellaneous configuration files. 
 
 #### alprd.conf
 The primary configuration file for the Scout Agent is located in `/etc/openalpr/alprd.conf` file.
@@ -173,8 +173,7 @@ store_plates_maxsize_gb = 0
 #### my_new_camera.conf
 
 The agent must be configured to connect to one or more camera streams to process license plates. Each camera require its configuration file in the folder `/etc/openalpr/stream.d/`.   
-
-
+If we are using two cameras, two configuration files is needed:
 ~~~
 # /etc/openalpr/stream.d/dart1.conf
 stream = dart0
@@ -191,21 +190,25 @@ gstreamer_format = v4l2src device=/dev/video1 ! video/x-raw,format=RGB ! videoco
   videorate ! video/x-raw,framerate=30/1,width=1280,height=720 ! appsink name=sink max-buffers=10
 ~~~~
 
-Each video source (e.g camera, video file) needs to be configured uniquely. This GStreamer pipeline is customized to handle pulling video from a specific /dev/video device, to which image frames from [RegularGrab](Pylon/SingleCamera/RegularGrab.cpp) and from [Grab_MultipleCameras](Pylon/MultipleCameras/Grab_MultipleCameras.cpp) where written.
-
+Each video source (e.g. camera, video file) needs to be configured. In this POC the GStreamer pipeline is arranged to handle pulling video from a specific /dev/video device, to which image frames from [RegularGrab](Pylon/SingleCamera/RegularGrab.cpp) and from [Grab_MultipleCameras](Pylon/MultipleCameras/Grab_MultipleCameras.cpp) are written.
 Each License plate that was recognized and processed by Rekor Scout is displayed in the iOS application in a small area :
 
-<p align="center">
-  <img src="readme/detection_phase.png" width="200" title="hover text">
-</p>
+<img height="200" src="readme/detection_phase.png" width="150"/>
 
-Each license plate image is acompanied by the label of the specific camera that captured it. In order to support this feature I am using ***camera_id key*** to identify every camera. This key-value pair is encapsulated with all the other information created by Rekor Scout when recognizing a vehicle. This information is sent as a JSON object to 
-
-llklklkkkskdkkd
+Each License plate that was recognized and processed by Rekor Scout is displayed in the iOS application in a small area. Each video source (e.g camera, video file) needs to be configured uniquely. 
+This GStreamer pipeline is customized to handle pulling video from a specific /dev/video device, to which image frames from [RegularGrab](Pylon/SingleCamera/RegularGrab.cpp) 
+and from [Grab_MultipleCameras](Pylon/MultipleCameras/Grab_MultipleCameras.cpp) where written. 
 Rekor maintains a local Beanstalkd queue. All JSON results are placed onto this queue. Your application can grab and process the latest plate results from this queue.
 
  
+# iOS Application - TD
+
+<p align="center">
+  <img src="readme/Edit_Detect.png" width="400" title="hover text">
+</p>
 
 
 
+In order to support this feature I am using camera_id key to identify every camera. This key-value pair is encapsulated with all the other information created by Rekor Scout when recognizing a vehicle. This information is sent as a JSON object to
 
+llklklkkkskdkkd Rekor maintains a local Beanstalkd queue. All JSON results are placed onto this queue. Your application can grab and process the latest plate results from this queue.
