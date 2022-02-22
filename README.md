@@ -31,7 +31,7 @@ Here, too, the two-way communication iOS-Linux is done by USBMUXD. Although wire
 
 # General scheme of the system
 
-###An overview of how the system works
+##An overview of how the system works
 
 1. Turning on the Jetson Xavier NX will invoke two services. One service is responsible to invoke the Mediation subsystem (via usb_listener.py). 
 The second service is responsible to create v4l2loop devices.
