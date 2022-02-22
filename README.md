@@ -173,7 +173,7 @@ store_plates_maxsize_gb = 0
 #### my_new_camera.conf
 
 The agent must be configured to connect to one or more camera streams to process license plates. Each camera require its configuration file in the folder `/etc/openalpr/stream.d/`.   
-If we are using two cameras, two configuration files is needed:
+For example, if we are using two cameras, two configuration files are needed:
 ~~~
 # /etc/openalpr/stream.d/dart1.conf
 stream = dart0
@@ -190,10 +190,16 @@ gstreamer_format = v4l2src device=/dev/video1 ! video/x-raw,format=RGB ! videoco
   videorate ! video/x-raw,framerate=30/1,width=1280,height=720 ! appsink name=sink max-buffers=10
 ~~~~
 
-Each video source (e.g. camera, video file) needs to be configured. In this POC the GStreamer pipeline is arranged to handle pulling video from a specific /dev/video device, to which image frames from [RegularGrab](Pylon/SingleCamera/RegularGrab.cpp) and from [Grab_MultipleCameras](Pylon/MultipleCameras/Grab_MultipleCameras.cpp) are written.
-Each License plate that was recognized and processed by Rekor Scout is displayed in the iOS application in a small area :
+Each video source (e.g. camera, video file) needs to be configured. 
+In this POC the GStreamer pipeline is arranged to handle pulling video from a specific /dev/video device, to which image frames 
+from [RegularGrab](Pylon/SingleCamera/RegularGrab.cpp) and from [Grab_MultipleCameras](Pylon/MultipleCameras/Grab_MultipleCameras.cpp) are written.
+Each License plate that was recognized and processed by Rekor Scout is displayed in the iOS application in a small frame in the upper left corner. 
+This feature is useful in two aspects: This gives us indications that the cameras are all OK. It serves also as an indicator that provide us with the system signs of life:
 
-<img height="200" src="readme/detection_phase.png" width="150"/>
+<img height="200" src="readme/detection_phase.png" width="120"/>
+
+
+
 
 Each License plate that was recognized and processed by Rekor Scout is displayed in the iOS application in a small area. Each video source (e.g camera, video file) needs to be configured uniquely. 
 This GStreamer pipeline is customized to handle pulling video from a specific /dev/video device, to which image frames from [RegularGrab](Pylon/SingleCamera/RegularGrab.cpp) 
@@ -214,6 +220,6 @@ Rekor maintains a local Beanstalkd queue. All JSON results are placed onto this 
 
 
 
-In order to support this feature I am using camera_id key to identify every camera. This key-value pair is encapsulated with all the other information created by Rekor Scout when recognizing a vehicle. This information is sent as a JSON object to
+In order to support this feature I am using ***camera_id*** key to identify every camera. This key-value pair is encapsulated with all the other information created by Rekor Scout when recognizing a vehicle. This information is sent as a JSON object to
 
 llklklkkkskdkkd Rekor maintains a local Beanstalkd queue. All JSON results are placed onto this queue. Your application can grab and process the latest plate results from this queue.
