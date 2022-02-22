@@ -49,7 +49,7 @@ Two other cameras, with the same specifications, are located at the rear side of
 This camera is responsible to capture license plates of vehicles that keep distance from our vehicle. I managed to capture license plates from approximately 60-70 meters.
 8. Two processes (using Pylon API) are responsible for grabbing frames from the cameras.
 [RegularGrab](Pylon/SingleCamera/RegularGrab.cpp) grabs frames from a given single camera for preview purposes, while [Grab_MultipleCameras](Pylon/MultipleCameras/Grab_MultipleCameras.cpp) grabs frames from all cameras.
-Each process, when invoked, grabs frames and writes them to a v4l2loopback device (e.g. /dev/video0).
+Each process, when invoked, grabs frames and writes them to a v4l2loopback device (e.g. `/dev/video0`).
 9. These v4l2loop video devices are exactly the ones from which the Rekor Scout agent receives video stream (using GStreamer pipeline).
 10. Prior to the activation of the system it is recommended to calibrate the cameras. TailDetector supports camera preview. It means, Receiving grabbed video frames from a specific camera and displaying them on the iOS device.
 To support this, the Mediation and the iOS device set up a unique peertalk channel, a video channel. 
