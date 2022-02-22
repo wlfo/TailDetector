@@ -194,24 +194,29 @@ Each video source (e.g. camera, video file) needs to be configured.
 In this POC the GStreamer pipeline is arranged to handle pulling video from a specific /dev/video device, to which image frames 
 from [RegularGrab](Pylon/SingleCamera/RegularGrab.cpp) and from [Grab_MultipleCameras](Pylon/MultipleCameras/Grab_MultipleCameras.cpp) are written.
 Each License plate that was recognized and processed by Rekor Scout is displayed in the iOS application in a small frame in the upper left corner. 
-This feature is useful in two aspects: This gives us indications that the cameras are all OK. It serves also as an indicator that provide us with the system signs of life:
-
-<img height="200" src="readme/detection_phase.png" width="120"/>
-
-
-
-
-Each License plate that was recognized and processed by Rekor Scout is displayed in the iOS application in a small area. Each video source (e.g camera, video file) needs to be configured uniquely. 
-This GStreamer pipeline is customized to handle pulling video from a specific /dev/video device, to which image frames from [RegularGrab](Pylon/SingleCamera/RegularGrab.cpp) 
-and from [Grab_MultipleCameras](Pylon/MultipleCameras/Grab_MultipleCameras.cpp) where written. 
-Rekor maintains a local Beanstalkd queue. All JSON results are placed onto this queue. Your application can grab and process the latest plate results from this queue.
-
+This feature is useful in two aspects: It gives us indications that all cameras involved in video capturing. It also serves as the system sign of life indicator.
+Using ***camera_id*** key-value in each camera configuration let us maintain a b-directional reference mechanism between the iOS application and the Jetson. 
+This mechanism helps us to identify which camera captured the processed license plate.
 
 <p align="center">
-  <img src="readme/data_configuration.png" width="800" title="hover text">
+<img height="350" src="readme/detection_phase.png" width="200"/>
+</p>
+
+
+#### Integration with Rekor Scout agent
+
+I prefer to integrate with the Rekor Scout agent "on-premises" and offline. 
+Rekor Scout supports this configuration by storing data locally in beanstalkd queue.
+The Mediation subsystem inside Jetson grabs and processes the latest plate results from this queue.
+Choosing to work with a queue by adding `use_beanstalkd = 1` to `alprd.conf` or by using the alprdconfig gui: 
+<p align="center">
+  <img src="readme/data_configuration.png" width="600" title="hover text">
 </p>
 
  
+
+
+
 # iOS Application - TD
 
 <p align="center">
@@ -219,7 +224,3 @@ Rekor maintains a local Beanstalkd queue. All JSON results are placed onto this 
 </p>
 
 
-
-In order to support this feature I am using ***camera_id*** key to identify every camera. This key-value pair is encapsulated with all the other information created by Rekor Scout when recognizing a vehicle. This information is sent as a JSON object to
-
-llklklkkkskdkkd Rekor maintains a local Beanstalkd queue. All JSON results are placed onto this queue. Your application can grab and process the latest plate results from this queue.
