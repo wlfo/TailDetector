@@ -10,7 +10,10 @@ The system consists of three major components:
 
 
 ## Cameras
-I am using Basler dart cameras with USB 3.0 interface. [According to Basler](https://www.baslerweb.com/en/vision-campus/interfaces-and-standards/usb3-interface-future/), USB 3.0 Vision interface offers a 350 MB/s bandwidth volume, which is suitable for this scenario. This interface also offers highly reliable data transfer between host and device and integrated (buffer) memory for top stability in industrial applications. Wiring inside a vehicle does not require more than 8m cable length (also supported by this interface). 
+I am using Basler dart cameras with USB 3.0 interface. 
+[According to Basler](https://www.baslerweb.com/en/vision-campus/interfaces-and-standards/usb3-interface-future/), USB 3.0 Vision interface offers a 350 MB/s bandwidth volume, which is suitable for this scenario. 
+This interface also offers highly reliable data transfer between host and device and integrated (buffer) memory for top stability in industrial applications. 
+Wiring inside a vehicle does not require more than 8m cable length (also supported by this interface). 
 
 ## Single Board Computer
 Nvidia produces very popular developer kits suitable for missions like this. I am using Jetson Xavier NX Developer Kit. Xavier NX has very impressive GPU features: 384 CUDA cores + 48 Tensor cores Volta GPU, 21 TOPS. There are 4 USB 3.0 ports on board. For more details See [Jetson Xavier NX Developer Kit](https://developer.nvidia.com/embedded/jetson-xavier-nx-devkit).
@@ -27,6 +30,29 @@ The ios application has capabilities such as: drawing a detection route, startin
 Here, too, the two-way communication iOS-Linux is done by USBMUXD. Although wireless interfaces (e.g WiFi) for maintaining this communication could be much simpler and intuitive, I chose to implement the entire iPhone-Jetson communication using peertalk over USB connection (i.e "closed system"). This choice can be considered as one more step toward reducing possible attack surface. In this decision exist at least one downside: the ios device must be connected to the jetson during all the detection phase.
 
 # General scheme of the system
+
+###An overview of how the system works
+
+1. Turning on the Jetson Xavier NX will invoke two services. One service is responsible to invoke the Mediation subsystem (via usb_listener.py). 
+The second service is responsible to create v4l2loop devices.
+2. Mediation subsystem is monitoring usb device insertion. When `add` action is detected, Mediation will check if `usbmuxd.service` is running. 
+This serIf this service is running if an iOS device is plugged into an usb port.
+3. Mediation establishes two peertalk channels for bidirectional communication with the iOS application:
+One channel to receive commands from the iOS application; A second channel to send information about every recognized vehicle and license plate.
+4. After establishing these two communication channels, Mediation will loop to drain from a Beanstalk queue.
+When system starts, the Rekor Scout agent is not yet active. In this case the queue is empty and there are no entries to drain.
+5. When starting the Rekor Scout agent (by sending command from the iOS application), it starts to get streams of video from all cameras and to process them.
+The Rekor Scout agent sends each recognized vehicle information (includes license plate and vehicle images) to the Beanstalk queue in a JSON format.
+6. Mediation tries to drain entries from the queue. When encounter an entry, it sends this JSON string via the peertalk channel to the iOS application.
+7. How the cameras are arranged - One Basler dart camera (Arducam CS Lens, 8mm Focal Length) is located at the front of the car, adjusted to 45 degrees to the left field of view. This camera is crucial for capturing overtaking vehicles. 
+Two other cameras, with the same specifications, are located at the rear side of the vehicle, adjusted to 45 degrees each. Finally, the fourth camera (Arducam CS Lens, 50mm Focal Length) is located between the two rear cameras.
+This camera is responsible to capture license plates of vehicles that keep distance from our vehicle. I managed to capture license plates from approximately 60-70 meters.
+8. 
+
+Two processes (using Pylon API), when invoked, are responsible to grab frames from the cameras.
+[RegularGrab](Pylon/SingleCamera/RegularGrab.cpp) grabs frames from a given single camera for preview purposes, while [Grab_MultipleCameras](Pylon/MultipleCameras/Grab_MultipleCameras.cpp) grabs frames from all cameras.
+Each process, when invoked, grabs frames and writes them to a v4l2loopback device (e.g. /dev/video0).
+
 <p align="center">
   <img src="readme/Scheme.png" width="800" title="hover text">
 </p>
