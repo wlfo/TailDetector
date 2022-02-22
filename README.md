@@ -33,25 +33,28 @@ Here, too, the two-way communication iOS-Linux is done by USBMUXD. Although wire
 
 ## An overview of how the system works
 
-1. Turning on the Jetson Xavier NX will invoke two services. One service is responsible to invoke the Mediation subsystem (via usb_listener.py). 
+1. Turning on the Jetson Xavier NX invokes two services. One service is responsible to activate the Mediation subsystem (by calling `python3 ~/TailDetector/Mediation/usb_listener.py`). 
 The second service is responsible to create v4l2loop devices.
-2. Mediation subsystem is monitoring usb device insertion. When `add` action is detected, Mediation will check if `usbmuxd.service` is running. 
-This serIf this service is running if an iOS device is plugged into an usb port.
-3. Mediation establishes two peertalk channels for bidirectional communication with the iOS application:
-One channel to receive commands from the iOS application; A second channel to send information about every recognized vehicle and license plate.
-4. After establishing these two communication channels, Mediation will loop to drain from a Beanstalk queue.
+2. The Mediation subsystem monitors usb device insertion. When `add` action is detected, Mediation will check if `usbmuxd.service` is running. 
+A running state for this service signifies an iOS device insertion into a USB port.
+3. The Mediation establishes two peertalk channels for bidirectional communication with the iOS application:
+One channel to receive commands (sends replies accordingly) from the iOS application; A second channel is used for transferring the information produced by the Rekor Scout agent (recognized vehicle and license plate data).
+4. After establishing these two communication channels, the Mediation will loop to drain from a Beanstalk queue.
 When system starts, the Rekor Scout agent is not yet active. In this case the queue is empty and there are no entries to drain.
-5. When starting the Rekor Scout agent (by sending command from the iOS application), it starts to get streams of video from all cameras and to process them.
-The Rekor Scout agent sends each recognized vehicle information (includes license plate and vehicle images) to the Beanstalk queue in a JSON format.
-6. Mediation tries to drain entries from the queue. When encounter an entry, it sends this JSON string via the peertalk channel to the iOS application.
-7. How the cameras are arranged - One Basler dart camera (Arducam CS Lens, 8mm Focal Length) is located at the front of the car, adjusted to 45 degrees to the left field of view. This camera is crucial for capturing overtaking vehicles. 
+5. When starting the Rekor Scout agent (by receiving command from the iOS application), the agent receives streams of video from all cameras. 
+During processing, the agent writes entries to the Beanstalk queue, each entry contains information (in JSON format) about a recognized vehicle (includes license plate and vehicle images).
+6. The Mediation tries to drain entries from the queue. When encounter an entry, it sends this JSON string via the peertalk channel to the iOS application.
+7. How are the cameras arranged in the car? One Basler dart camera (Arducam CS Lens, 8mm Focal Length) is located at the front of the car, adjusted to 45 degrees to the left field of view. This camera is crucial for capturing overtaking vehicles. 
 Two other cameras, with the same specifications, are located at the rear side of the vehicle, adjusted to 45 degrees each. Finally, the fourth camera (Arducam CS Lens, 50mm Focal Length) is located between the two rear cameras.
 This camera is responsible to capture license plates of vehicles that keep distance from our vehicle. I managed to capture license plates from approximately 60-70 meters.
-8. 
-
-Two processes (using Pylon API), when invoked, are responsible to grab frames from the cameras.
+8. Two processes (using Pylon API) are responsible for grabbing frames from the cameras.
 [RegularGrab](Pylon/SingleCamera/RegularGrab.cpp) grabs frames from a given single camera for preview purposes, while [Grab_MultipleCameras](Pylon/MultipleCameras/Grab_MultipleCameras.cpp) grabs frames from all cameras.
 Each process, when invoked, grabs frames and writes them to a v4l2loopback device (e.g. /dev/video0).
+9. These v4l2loop video devices are exactly the ones from which the Rekor Scout agent receives video stream (using GStreamer pipeline).
+10. Prior to the activation of the system it is recommended to calibrate the cameras. TailDetector supports camera preview. It means, Receiving grabbed video frames from a specific camera and displaying them on the iOS device.
+To support this, the Mediation and the iOS device set up a unique peertalk channel, a video channel. 
+
+
 
 <p align="center">
   <img src="readme/Scheme.png" width="800" title="hover text">
