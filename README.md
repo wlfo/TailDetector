@@ -1,7 +1,13 @@
 # TailDetector
 
 The **TailDetector** is an automotive system for surveillance detecting. 
-It was developed as a Proof of Concept of using a computer vision system to detect possible car surveillance. 
+It was developed as a **Proof of Concept** of using a computer vision system to detect possible car surveillance. 
+What can be done with such system? Money delivery trucks, for example, can use systems of that kind to detect hostile vehicles that are trying to gather information about money delivery routine.
+In order to maximize the probability of true detection and to reduce false positives, one must draw the detection route wisely.
+Information abouts some practices can be found in these articles: ["How to Tell If You’re Being Followed."](https://brandon-gregg.medium.com/how-to-tell-if-youre-being-followed-3707086fc2ac)
+**TailDetector** let you draw a detection route that goes through three or more detection points. 
+Each detection point is surrounded by a circle with a configured radius. Only inside this area the system algorythm will process recognized vehicles. 
+For more detailed description see [iOS Application](#td application)
 
 The system consists of three major components:
 * Four [Cameras](#cameras) installed inside a vehicle (one front camera and three other on the back of the vehicle).
@@ -260,7 +266,7 @@ Choosing to work with a queue by adding `use_beanstalkd = 1` to `alprd.conf` or 
 
 
 
-# iOS Application - TD
+# TD Application
 
 iOS Application have four main views:
 * **Edit View** - In this view the user can draw a detection route by using long-press gestures to define detection points. Through these detection-points the system will draw a route (Detection Route). 
@@ -287,7 +293,7 @@ Usually those with low probability will be vehicles with partial license plate n
     * **Define Cameras** - In order to activate a connected camera the user must define (only once) a camera (i.e. add serial number, define camera name).
     * **ALPRDaemon is Down** - This toggle button is readonly from the user point of view. When on, ut indicates that the application is receiving signals from the Jetson, saying that the daemon is up.
     * **Start All Daemons** - Turning on the toggle button sends a command to the Jetson, instructing the Mediation subsystem to start the Rekor Scout daemon. 
-  The Mediation also invokes the [Grab_MultipleCameras]((Pylon/MultipleCameras/Grab_MultipleCameras.cpp)) process to operate grabbing frames from all cameras and to write the grabbed frames to the corresponding video loop devices.
+  The Mediation also invokes the [Grab_MultipleCameras](Pylon/MultipleCameras/Grab_MultipleCameras.cpp) process to operate grabbing frames from all cameras and to write the grabbed frames to the corresponding video loop devices.
     * **Detect Radius** - Detection radius of a detection point (i.e. the violet circle on map) can be configured.
   Remember that only inside this region the vehicle recognition data is processed by the detection algorythm.
     * **In point Radius** - This value helps the algorythm to mark that your vehicle reached the current detection point.
