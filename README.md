@@ -7,7 +7,7 @@ In order to maximize the probability of true detection and to reduce false posit
 Information abouts some practices can be found in these articles: ["How to Tell If You’re Being Followed."](https://brandon-gregg.medium.com/how-to-tell-if-youre-being-followed-3707086fc2ac)
 **TailDetector** let you draw a detection route that goes through three or more detection points. 
 Each detection point is surrounded by a circle with a configured radius. Only inside this area the system algorythm will process recognized vehicles. 
-For more detailed description see [iOS Application](#td application)
+For more detailed description see [iOS Application](#td-application)
 
 The system consists of three major components:
 * Four [Cameras](#cameras) installed inside a vehicle (one front camera and three other on the back of the vehicle).
