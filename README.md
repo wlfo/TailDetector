@@ -268,7 +268,7 @@ Choosing to work with a queue by adding `use_beanstalkd = 1` to `alprd.conf` or 
 
 # TD Application
 
-iOS Application have four main views:
+iOS Application has four main views:
 * **Edit View** - In this view the user can draw a detection route by using long-press gestures to define detection points. Through these detection-points the system will draw a route (Detection Route). 
 Around each detection point a circle with a pre-configured radius will be drawn. The circle is meant to define the zone where the system will process all recognized license plates and vehicles using some algorythm to determine if a surveillance was detected.
 A single-tap gesture on a defined detection point will pop a small menu with Replace/Remove options.
