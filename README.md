@@ -264,7 +264,20 @@ Choosing to work with a queue by adding `use_beanstalkd = 1` to `alprd.conf` or 
 </p>
 
  
+## Miscellaneous scripts 
 
+* [start_single_cam.sh](Mediation/start_single_cam.sh) - Responsible for starting and stopping a single camera for preview purposes by invoking RegularGrab.
+* [start_daemons.sh](Mediation/start_daemons.sh) - Responsible for starting the rekor scout daemon and also for starting and stopping all cameras by invoking Grab_MultipleCameras.  
+
+These scripts are being called by the Mediation subsystem when an appropriate command is sent from the TD application.
+The Mediation subsystem (i.e. python script) calls these scripts with `sudo`. For that to work we need to edit `/etc/sudoers`. 
+Using `visudo` add these lines:
+
+~~~
+# user is jetty
+jetty ALL=(root) NOPASSWD: /home/jetty/Mediation/start_daemons.sh
+jetty ALL=(root) NOPASSWD: /home/jetty/Mediation/start_single_cam.sh
+~~~
 
 
 # TD Application
