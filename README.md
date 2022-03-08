@@ -137,8 +137,9 @@ Description=Start usb_listener.py
 ...
 
 [Service]
+WorkingDirectory=/home/jetty/TailDetector/Mediation
 Type=simple
-ExecStart=/usr/bin/python3 ~/TailDetector/Mediation/usb_listener.py
+ExecStart=/usr/bin/python3 usb_listener.py
 StandardInput=tty-force
 Restart=on-failure
 
