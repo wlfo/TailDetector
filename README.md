@@ -220,7 +220,7 @@ upload_data = 0
 store_plates_maxsize_gb = 0
 ~~~~
 
-#### my_new_camera.conf
+#### Camera configuration file
 
 The agent must be configured to connect to one or more camera streams to process license plates. Each camera require its configuration file in the folder `/etc/openalpr/stream.d/`.   
 For example, if we are using two cameras, two configuration files are needed:
@@ -263,7 +263,34 @@ Choosing to work with a queue by adding `use_beanstalkd = 1` to `alprd.conf` or 
   <img src="readme/data_configuration.png" width="600" title="Data Configuration">
 </p>
 
- 
+#### alpr.log
+After activating the agent, you should see the agent successfully connecting to the camera in the log file /var/log/alpr.log.
+Here you can check if the custom GStreamer pipeline is being recognized and valid. 
+~~~
+...
+INFO - Video stream connecting... (pulse1)
+INFO - Video Stream Starting: pulse1
+DEBUG - Video Stream Pipeline: v4l2src device=/dev/video0 ! video/x-raw,format=RGB ! videoconvert ! videorate ! 
+  video/x-raw,framerate=30/1,width=1280,height=720 ! appsink name=sink max-buffers=10
+INFO - Video state change 2
+INFO - Video Stream Start complete
+INFO - Video stream initializing (pulse1)
+INFO - Video Stream received initial width/height to 1280x720
+...
+DEBUG - Writing heartbeat
+DEBUG - camera          0: video fps:  29.7 motion:  3.37% rec. fps:     0 (0%)
+INFO - Starting Analysis thread #1
+DEBUG - camera          0: video fps:  30.7 motion:    25% rec. fps: 0.333 (4.35%)
+DEBUG - camera          0: video fps:  27.3 motion:  37.8% rec. fps: 0.333 (3.23%)
+DEBUG - Writing heartbeat
+...
+~~~
+
+
+
+
+
+
 ## Miscellaneous scripts 
 
 * [start_single_cam.sh](Mediation/start_single_cam.sh) - Responsible for starting and stopping a single camera for preview purposes by invoking RegularGrab.
