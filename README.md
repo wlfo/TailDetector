@@ -60,7 +60,12 @@ During processing, the agent writes entries to a Beanstalk queue, each entry con
 Two other cameras, with the same specifications (with Arducam CS Lens, 12mm Focal Length), are located at the rear side of the vehicle, adjusted to 56 degrees each. 
 Finally, the fourth camera (Arducam CS Lens, 35mm Focal Length) is located between the two rear cameras.
 This camera is responsible for capturing license plates of vehicles that keep distance from our vehicle. 
-I managed to capture license plates from approximately 60-70 meters with this camera.
+I managed to capture license plates from approximately 50-60 meters with this camera (35mm Focal length) and from approximately 80m (using 50mm Focal length).
+When using Basler dart model puA1280-54uc: For Focal length of *35mm* and working distance of *60m*, object width is **8224mm** (using Basler [lens selector tool](https://www.baslerweb.com/en/products/tools/lens-selector/#camera-series=s-2072;camera-model=m-8131)). 
+License plates width in israel is around **470mm** approximately.
+According to [Rekor Scout](https://docs.rekor.ai/camera-configuration/camera-placement-guide/pixels-on-target) documentation: "Our software reads USA plates wider than 75 pixels and European plates wider than 90 pixels".
+Using these specs we can calculate the number of pixels that 'covers' the license plate: *horizontal resolution / (object width / license plate width)*  = 1280 / (8224/470) = 73 pixels. 
+
 
 <p align="center">
   <img src="readme/camera_angles.png" width="800" title="Cameras angles" class="rounded">
