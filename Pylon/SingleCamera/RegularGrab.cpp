@@ -161,7 +161,8 @@ int main(int argc, char *argv[])
 		_offsetY->SetValue(oy);
 
 		// Disable Mirroring
-		if (camera.GetDeviceInfo().GetModelName() == "daA3840-45uc"){
+		String_t cameraModelName = camera.GetDeviceInfo().GetModelName();
+		if (cameraModelName == "daA3840-45uc" || cameraModelName == "puA1280-54uc"){
 			// Enable Reverse X
 			CBooleanParameter(nodemap, "ReverseX").SetValue(true);
 			// Enable Reverse Y, if available, if daA3840-45uc
