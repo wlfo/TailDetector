@@ -121,11 +121,13 @@ struct DetectView: View, SegmentedMapTypeDelegate {
                 VStack {
                     HStack() {
                         
+                        // Indentation
+                        /*
                         VStack {
                             //Spacer()
                         }
                         .frame(minWidth: 0, maxWidth: 100)
-                        .background(Color.blue)
+                        .background(Color.blue)*/
                         
                         
                         VStack {
@@ -179,7 +181,7 @@ struct DetectView: View, SegmentedMapTypeDelegate {
                         VStack {
                             //Spacer()
                         }
-                        .frame(minWidth: 0, maxWidth: 100)
+                        .frame(minWidth: 0, maxWidth: 200)
                         .background(Color.blue)
                     }
                     .frame(minWidth: 0, maxWidth: .infinity)
