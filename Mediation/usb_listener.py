@@ -73,7 +73,7 @@ def loop_over_plates(beans):
             print("No plates available right now, waiting...")
             continue
         else:
-            gap = beanstalkc.stats_tube('alprd')['current-jobs-reserved']
+            gap = beanstalk.stats_tube('alprd')['current-jobs-reserved']
             print(f'------------------ Gap is: {gap} ------------')
             print("Found a plate!")
             plates_info = json.loads(job.body)
