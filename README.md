@@ -347,7 +347,7 @@ Usually those with low probability will be vehicles with partial license plate n
     * **Reset All Data** - Clear all saved detection routes, reports and other stuff. 
 
 <p align="center">
-  <img src="readme/All4Views.png" width="800" title="Four Main Views">
+  <img src="readme/All4Views.png" width="1200" title="Four Main Views">
 </p>
 
 
