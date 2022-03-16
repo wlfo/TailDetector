@@ -1,10 +1,12 @@
 # TailDetector
 
-The **TailDetector** is an automotive system for surveillance detecting. 
+The **TailDetector** is an automotive system for surveillance detection. 
 It was developed as a **Proof of Concept** of using a computer vision system to detect possible car surveillance. 
 What can be done with such system? Money delivery trucks, for example, can use systems of that kind to detect hostile vehicles that are trying to gather information about money delivery routine.
 In order to maximize the probability of true detection and to reduce false positives, one must draw the detection route wisely.
-Information abouts some practices can be found in these articles: ["How to Tell If You’re Being Followed."](https://brandon-gregg.medium.com/how-to-tell-if-youre-being-followed-3707086fc2ac)
+Information about some practices can be found in these articles: ["How to Tell If You’re Being Followed"](https://brandon-gregg.medium.com/how-to-tell-if-youre-being-followed-3707086fc2ac),
+["How To Detect if You’re Under Surveillance"](https://protectioncircle.org/2016/05/25/surveillance-detection-on-yourself/), ["Surveillance Detection: You Can’t Find Surveillance Unless You’re Looking For It"](https://ontic.co/blog/surveillance-detection-you-cant-find-surveillance-unless-youre-looking-for-it/).
+
 **TailDetector** let you draw a detection route that goes through three or more detection points. 
 Each detection point is surrounded by a circle with a configured radius. Only inside this area the system algorythm will process recognized vehicles. 
 For more detailed description see [iOS Application](#td-application)
