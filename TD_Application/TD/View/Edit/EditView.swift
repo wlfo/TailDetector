@@ -73,10 +73,10 @@ struct EditView: View, SegmentedMapTypeDelegate {
             self.presentation.wrappedValue.dismiss()
         }.onAppear(){
             
-            // Take Radius settings and update DetectPointAnnotation before editing
+            // Take Radius settings and update DetectZoneAnnotation before editing
             if self.listOfOne.count > 0 {
-                DetectPointAnnotation.FENCE_RADIUS = Double(self.listOfOne[0].radius)
-                DetectPointAnnotation.IN_POINT_RADIUS = Double(self.listOfOne[0].inRadius)
+                DetectZoneAnnotation.FENCE_RADIUS = Double(self.listOfOne[0].radius)
+                DetectZoneAnnotation.IN_ZONE_RADIUS = Double(self.listOfOne[0].inRadius)
             }
             
             // Prevent App from Dim or Sleep

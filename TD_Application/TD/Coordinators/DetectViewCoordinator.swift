@@ -16,8 +16,8 @@ final class DetectViewCoordinator: NSObject, MKMapViewDelegate, AnnotationDataDe
     var instruction: Instruction?
     var map: MKMapView
     var initialized = false
-    var dpList: LinkedList<DetectPointAnnotation>
-    var dpList4Instructions: LinkedList<DetectPointAnnotation>
+    var dpList: LinkedList<DetectZoneAnnotation>
+    var dpList4Instructions: LinkedList<DetectZoneAnnotation>
     var tapGestureRecognizer: UIGestureRecognizer!
     var packetProcessor: PacketProcessor!
     var userLocation: MKUserLocation!
@@ -47,8 +47,8 @@ final class DetectViewCoordinator: NSObject, MKMapViewDelegate, AnnotationDataDe
         //self.factor = 1.0
         
         self.map = map
-        self.dpList = LinkedList<DetectPointAnnotation>()
-        self.dpList4Instructions = LinkedList<DetectPointAnnotation>()
+        self.dpList = LinkedList<DetectZoneAnnotation>()
+        self.dpList4Instructions = LinkedList<DetectZoneAnnotation>()
         //self.userTrackingButton = MKUserTrackingButton(mapView: map)
         //self._showAlert = showingAlert
         //self._alertMessage = alertMessage
@@ -94,27 +94,27 @@ final class DetectViewCoordinator: NSObject, MKMapViewDelegate, AnnotationDataDe
         }
     }
     
-    // Calculate Driving instruction to the next detection point
+    // Calculate Driving instruction to the next detection zone
     private func calculateInstruction(){
         
-        // If already reached the next detectpoint, remove it from list
-        if !removeDetectionPointIfThere(){
+        // If already reached the next detectzone, remove it from list
+        if !removeDetectionZoneIfThere(){
             // End of mission
             
             DispatchQueue.main.async {
-                self.instruction?.setInstruction(instruction: "You Reached the Last Detection Point")
+                self.instruction?.setInstruction(instruction: "You Reached the Last Detection Zone")
             }
             return
         }
         
-        // Calculate instructions from my location to the next detectpoint
+        // Calculate instructions from my location to the next detectzone
         let userLocation = getUserLocation()
         
         // Origin
         let placeOrigin = MKPlacemark(coordinate: userLocation.coordinate)
         let origin = MKMapItem(placemark: placeOrigin)
         
-        // Todo: Find mechanism to figure out the next detection point
+        // Todo: Find mechanism to figure out the next detection zone
         // Destination
         let placeDestination = MKPlacemark(coordinate: (dpList4Instructions.first?.value.coordinate)!) // Temporarily
         let destination = MKMapItem(placemark: placeDestination)
@@ -284,16 +284,16 @@ final class DetectViewCoordinator: NSObject, MKMapViewDelegate, AnnotationDataDe
             return nil
         }
         
-        if annotation is DetectPointAnnotation {
-            var view = mapView.dequeueReusableAnnotationView(withIdentifier: "DetectPointAnnotationView") as? DetectPointAnnotationView
+        if annotation is DetectZoneAnnotation {
+            var view = mapView.dequeueReusableAnnotationView(withIdentifier: "DetectZoneAnnotationView") as? DetectZoneAnnotationView
             
             if view == nil {
-                view = DetectPointAnnotationView(annotation: annotation, reuseIdentifier: "DetectPointAnnotationView")
+                view = DetectZoneAnnotationView(annotation: annotation, reuseIdentifier: "DetectZoneAnnotationView")
                 view?.canShowCallout = false
             }
             
             // Put index inside
-            let dpAnnotation = annotation as? DetectPointAnnotation
+            let dpAnnotation = annotation as? DetectZoneAnnotation
             view?.glyphText = String(dpAnnotation!.index)
             view?.annotation = annotation
             view?.markerTintColor = UIColor.systemGreen
@@ -406,7 +406,7 @@ final class DetectViewCoordinator: NSObject, MKMapViewDelegate, AnnotationDataDe
         }*/
     }
     
-    private func createDirection(dpAnnotation: DetectPointAnnotation ,coordOrigin: CLLocationCoordinate2D, coordDestination: CLLocationCoordinate2D){
+    private func createDirection(dpAnnotation: DetectZoneAnnotation ,coordOrigin: CLLocationCoordinate2D, coordDestination: CLLocationCoordinate2D){
         
         // If already loaded no need to reconstruct denuevo
         if dpAnnotation.route != nil {
@@ -439,7 +439,7 @@ final class DetectViewCoordinator: NSObject, MKMapViewDelegate, AnnotationDataDe
     }
     
     // Create Annotation View and attach Annotation to it
-    fileprivate func reconstructAnnotations(_ dpAnnotation: DetectPointAnnotation?) {
+    fileprivate func reconstructAnnotations(_ dpAnnotation: DetectZoneAnnotation?) {
         var coordOrigin: CLLocationCoordinate2D!
         if dpList.head?.value == dpAnnotation {
             coordOrigin = map.userLocation.coordinate
@@ -466,8 +466,8 @@ final class DetectViewCoordinator: NSObject, MKMapViewDelegate, AnnotationDataDe
         // Do something
     }
     
-    // Comparing two DetectPointAnnotation by UUID
-    func predicate(lhs: DetectPointAnnotation, rhs: DetectPointAnnotation) -> Bool{
+    // Comparing two DetectZoneAnnotation by UUID
+    func predicate(lhs: DetectZoneAnnotation, rhs: DetectZoneAnnotation) -> Bool{
         return lhs.uuid == rhs.uuid
     }
     
@@ -497,9 +497,9 @@ final class DetectViewCoordinator: NSObject, MKMapViewDelegate, AnnotationDataDe
             switch annotationsResult {
             case let .success(annotations):
                 if annotations.count > 0 {
-                    //let dpList = LinkedList<DetectPointAnnotation>()
+                    //let dpList = LinkedList<DetectZoneAnnotation>()
                     annotations.forEach{
-                        let dp = DetectPointAnnotation(annotationData: $0)
+                        let dp = DetectZoneAnnotation(annotationData: $0)
                         if self.dpList.contains(pred: self.predicate, value: dp) {
                             // Do nothing
                         } else {
@@ -512,7 +512,7 @@ final class DetectViewCoordinator: NSObject, MKMapViewDelegate, AnnotationDataDe
                         print("count \(self.dpList.count)")
                     }
                     
-                    var allAnnotations = [DetectPointAnnotation]()
+                    var allAnnotations = [DetectZoneAnnotation]()
                     
                     if self.dpList.count > 0 {
                         for i in 0...self.dpList.count - 1 {
@@ -602,16 +602,16 @@ final class DetectViewCoordinator: NSObject, MKMapViewDelegate, AnnotationDataDe
     }
     
     
-    // Check if reached next detection point
-    func removeDetectionPointIfThere() -> Bool {
-        let nextDetectPointCoord = self.dpList4Instructions.first?.value.coordinate
+    // Check if reached next detection zone
+    func removeDetectionZoneIfThere() -> Bool {
+        let nextDetectZoneCoord = self.dpList4Instructions.first?.value.coordinate
         
-        if nextDetectPointCoord == nil {
+        if nextDetectZoneCoord == nil {
             return false
         }
         
         // Check if around User Location
-        if isInRadius(coord1: nextDetectPointCoord!, coord2: self.userLocation.coordinate, radius: DetectPointAnnotation.IN_POINT_RADIUS) {
+        if isInRadius(coord1: nextDetectZoneCoord!, coord2: self.userLocation.coordinate, radius: DetectZoneAnnotation.IN_ZONE_RADIUS) {
             _ = self.dpList4Instructions.remove(node: self.dpList4Instructions.first!)
         }
         
@@ -623,21 +623,21 @@ final class DetectViewCoordinator: NSObject, MKMapViewDelegate, AnnotationDataDe
     }
     
     
-    // Check if inside one of the detection points
+    // Check if inside one of the detection zones
     // location: the current location where I detected a vehicle
-    func drop(location: CLLocationCoordinate2D) -> (detectPointIndex: Int, drop: Bool) {
+    func drop(location: CLLocationCoordinate2D) -> (detectZoneIndex: Int, drop: Bool) {
         
         // Check if around the initial User Location
-        if isInRadius(coord1: location, coord2: self.initialUserLocation.coordinate, radius: DetectPointAnnotation.FENCE_RADIUS) {
+        if isInRadius(coord1: location, coord2: self.initialUserLocation.coordinate, radius: DetectZoneAnnotation.FENCE_RADIUS) {
             return (0, false)
         }
         
         if dpList.count > 0 {
             for index in 0...dpList.count - 1 {
-                let detectPoint = dpList.nodeAt(index: index)!.value as DetectPointAnnotation
+                let detectZone = dpList.nodeAt(index: index)!.value as DetectZoneAnnotation
                 
-                // Check if distance is less than the radius of the detection point
-                if isInRadius(coord1: location, coord2: detectPoint.coordinate, radius: DetectPointAnnotation.FENCE_RADIUS) {
+                // Check if distance is less than the radius of the detection zone
+                if isInRadius(coord1: location, coord2: detectZone.coordinate, radius: DetectZoneAnnotation.FENCE_RADIUS) {
                     return (index + 1, false)
                 }
             }

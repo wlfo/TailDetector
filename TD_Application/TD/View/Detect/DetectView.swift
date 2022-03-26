@@ -34,7 +34,7 @@ struct DetectView: View, SegmentedMapTypeDelegate {
     // Todo: Has to be ObservableObject
     var mpCoordinator: DetectViewCoordinator!
     let mapView: DetectMapView!
-    let MINIMUM_DETECT_POINTS = 3
+    let MINIMUM_DETECT_ZONES = 3
     
     //static var askedToResetFlag = false
     
@@ -193,7 +193,7 @@ struct DetectView: View, SegmentedMapTypeDelegate {
                     
                     Button(action: {
                         NSLog("Start Button Pressed")
-                        if self.mpCoordinator.dpList.count < MINIMUM_DETECT_POINTS {
+                        if self.mpCoordinator.dpList.count < MINIMUM_DETECT_ZONES {
                             self.showingAlert = true
                         } else {
                             
@@ -203,10 +203,10 @@ struct DetectView: View, SegmentedMapTypeDelegate {
                                 let appState = Atomic<AppState>(AppState.shared)
                                 appState.mutate { $0.state = .detect}
                                 
-                                // Set point Zero
-                                self.packetProcessor.setPointZero()
+                                // Set zone Zero
+                                self.packetProcessor.setZoneZero()
                                 
-                                // Set Initial User Location for the initial detecting point
+                                // Set Initial User Location for the initial detecting zone
                                 self.mpCoordinator.setInitialUserLocation()
                                 
                                 // Test
@@ -265,7 +265,7 @@ struct DetectView: View, SegmentedMapTypeDelegate {
             }
         })
             .alert(isPresented: $showingAlert) {
-                Alert(title: Text("Not Enough Detect Points!"), message: Text("You must edit at least three detect points."), dismissButton: .default(Text("OK!")))
+                Alert(title: Text("Not Enough Detect Zones!"), message: Text("You must edit at least three detect zones."), dismissButton: .default(Text("OK!")))
             }
             .sheet(isPresented: self.$showDetailView) {
                 PlateImageView(plateImage: $packetProcessor.plateImage, plateImageFrameColor: $packetProcessor.plateImageFrameColor, cameraId: $packetProcessor.cameraId)

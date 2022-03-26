@@ -13,7 +13,7 @@ protocol DetectViewUpdater {
     
     // Decide if packet should be dropped according to location.
     // If not dropped update view with license plate preview
-    func drop(location: CLLocationCoordinate2D) -> (detectPointIndex: Int, drop: Bool)
+    func drop(location: CLLocationCoordinate2D) -> (detectZoneIndex: Int, drop: Bool)
     
     // Add Annotation to MapView with whole detection information
     func addAnnotationForDetected(uuid: UUID, location: CLLocationCoordinate2D, title: String, type: DetectedAnnotation.DetectType)

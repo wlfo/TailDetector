@@ -39,8 +39,8 @@ class PacketProcessor: ObservableObject {
     }
     
     
-    // Set the starting point - Point Zero
-    func setPointZero(){
+    // Set the starting zone - Zone Zero
+    func setZoneZero(){
         self.userLocation = self.dropDelegate.getUserLocation()
     }
     
@@ -102,7 +102,7 @@ class PacketProcessor: ObservableObject {
         return detectPreviewDetails
     }
     
-    // Check if packet is outside detect points (if outside - drop)
+    // Check if packet is outside detect zones (if outside - drop)
     // Update View with License Plate image
     // Perform detection process
     func processPacket(packet: Packet){
@@ -136,56 +136,56 @@ class PacketProcessor: ObservableObject {
             // Send the packet to Working Queue and forget.
             // The Object that (maybe here...) will process the packet according to Queue
             // will act as ObservableObject for DetectView too.
-            packet.detectPointIndex = result.0
-            addAndDetect(packet: packet, detectPointIndex: result.0)
+            packet.detectZoneIndex = result.0
+            addAndDetect(packet: packet, detectZoneIndex: result.0)
             print("at dp index: \(result.0)")
         }
     }
     
-    // Check if treat detectPointIndex from 0 or from 1
-    func addAndDetect(packet: Packet, detectPointIndex: Int){
-        if detectPointIndex < 0 {
+    // Check if treat detectZoneIndex from 0 or from 1
+    func addAndDetect(packet: Packet, detectZoneIndex: Int){
+        if detectZoneIndex < 0 {
             return
         }
         
         if PacketProcessor.applyRecencyCheck {
             
             // If recent (time) do not continue with processing
-            if isRecent(packet: packet, currentHashTable: hashTables[detectPointIndex], interval: TIME_BETWEEN_SAME_LP_SEC, predicate: isRecentInTime){
+            if isRecent(packet: packet, currentHashTable: hashTables[detectZoneIndex], interval: TIME_BETWEEN_SAME_LP_SEC, predicate: isRecentInTime){
                 return
             }
             
             // If recent (distance) do not continue with processing
-            if isRecent(packet: packet, currentHashTable: hashTables[detectPointIndex], interval: DISTANCE_BETWEEN_SAME_LP_METER, predicate: isRecentInDistance){
+            if isRecent(packet: packet, currentHashTable: hashTables[detectZoneIndex], interval: DISTANCE_BETWEEN_SAME_LP_METER, predicate: isRecentInDistance){
                 return
             }
         }
         
-        // If zero point or first point
-        if detectPointIndex < 2 {
-            addFirstDetect(packet: packet, currentHashTable: hashTables[detectPointIndex])
+        // If zero zone or first zone
+        if detectZoneIndex < 2 {
+            addFirstDetect(packet: packet, currentHashTable: hashTables[detectZoneIndex])
         } else {
             
             // array represents the current new license plate
             var array = [String]()
             div(array: &array, key: packet.licensePlateNumber) //Detect
             
-            for index in 0...detectPointIndex-1 {
+            for index in 0...detectZoneIndex-1 {
                 // Todo: Pass this detection epiphany upward
-                detect(substrings: array, currentPacket: packet, formerHashTable: hashTables[index], currentHashTable: hashTables[detectPointIndex])
+                detect(substrings: array, currentPacket: packet, formerHashTable: hashTables[index], currentHashTable: hashTables[detectZoneIndex])
             }
             
             // After trying to detect update all substrings inside the current HashTable
             // Remember that packet still contains the original longest substring
             for i in 0...array.count-1 {
-                hashTables[detectPointIndex].updateValue(packet, forKey: array[i])
+                hashTables[detectZoneIndex].updateValue(packet, forKey: array[i])
                 //print("\(i): \(array[i])")
             }
             
         }
     }
     
-    // Add all objects detected in point Zero and point 1
+    // Add all objects detected in zone Zero and zone 1
     private func addFirstDetect(packet: Packet, currentHashTable: HashTable<String, Packet>){
         var array = [String]()
         div(array: &array, key: packet.licensePlateNumber)
@@ -407,9 +407,9 @@ class PacketProcessor: ObservableObject {
      In this function we perform detection algorithm to check if there exist an entry matched to the new packet object. When finish add the current packet to the designated Hash Table
      
      - parameter substrings: Array of substrings from the original license plate number (i.e for string length m we will get (m^2 - 3m + 2)/2)
-     - parameter currentPacket: Packet of the current detect point
-     - parameter formerHashTable: Hash Table of former detect points previous this one
-     - parameter currentHashTable: Hash Table of thr current detect point
+     - parameter currentPacket: Packet of the current detect zone
+     - parameter formerHashTable: Hash Table of former detect zones previous this one
+     - parameter currentHashTable: Hash Table of thr current detect zone
      
      - returns: Void
      - warning: No Warning
@@ -444,7 +444,7 @@ class PacketProcessor: ObservableObject {
                     }
                     
                     print("match: \(substrings[i]) from ancestor: \(substrings[0]) is \(hlp)")
-                    detections[currentPacket.detectPointIndex].append((currentPacket, e.element))
+                    detections[currentPacket.detectZoneIndex].append((currentPacket, e.element))
                     identifiersHashTable.updateValue(currentPacket, forKey: currentPacket.licensePlateNumber)
                     var detectType = DetectedAnnotation.DetectType.car
                     
@@ -467,7 +467,7 @@ class PacketProcessor: ObservableObject {
                     // Marked processed to prevent multiple saving
                     currentPacket.isProcessed = true
                     
-                    // Check if already proccessed as point from the past
+                    // Check if already proccessed as zone from the past
                     if e.element.isProcessed == false {
                         
                         // Packet from the past but first time to be connected to other packet
@@ -487,7 +487,7 @@ class PacketProcessor: ObservableObject {
                     // Now We can perform update view action in main thread
                     DispatchQueue.main.async {
                         
-                        // Handle Annotation adding to view - Represents the new point where detection occured [detect of the same lp from the present]
+                        // Handle Annotation adding to view - Represents the new zone where detection occured [detect of the same lp from the present]
                         let coord = CLLocationCoordinate2D(latitude: currentPacket.latitude, longitude: currentPacket.longitude)
                         self.dropDelegate.addAnnotationForDetected(uuid: currentPacket.id, location: coord, title: currentPacket.licensePlateNumber, type: detectType)
                         

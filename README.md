@@ -319,36 +319,36 @@ jetty ALL=(root) NOPASSWD: /home/jetty/Mediation/start_single_cam.sh
 # TD Application
 
 iOS Application has four main views:
-* **Edit View** - In this view the user can draw a detection route by using long-press gestures to define detection points. 
-Through these detection-points the system will draw a route (Surveillance Detection Route). 
-Around each detection point a circle with a pre-configured radius will be drawn. 
+* **Edit View** - In this view the user can draw a detection route by using long-press gestures to define detection zones. 
+Through these detection-zones the system will draw a route (Surveillance Detection Route). 
+Around each detection zone a circle with a pre-configured radius will be drawn. 
 The circle will define the zone where the system will process all recognized license plates and vehicles using some algorythm to determine if a surveillance was detected.
-A single-tap gesture on a defined detection point will pop a small menu with Replace/Remove options.
-* **Detect View** - After defining at least three detection points, the user can begin the detection process by pressing the "Start" button.
-All vehicle data that was processed at the start point (inside a pre-configured radius) will be saved fo later processing. 
-During all the detection phase the Jetson will process all captured vehicles. Only when inside the perimeter of a detection point (i.e. the violet circle) the recognized vehicles will be treated by the detection algorythm.
+A single-tap gesture on a defined detection zone will pop a small menu with Replace/Remove options.
+* **Detect View** - After defining at least three detection zones, the user can begin the detection process by pressing the "Start" button.
+All vehicle data that was processed at the start zone (inside a pre-configured radius) will be saved fo later processing. 
+During all the detection phase the Jetson will process all captured vehicles. Only when inside the perimeter of a detection zone (i.e. the violet circle) the recognized vehicles will be treated by the detection algorythm.
 And only inside these circles the user will notice a violet frame around the license plate preview in the upper left corner of the screen.
-Outside these detection points, the frame will have a grey color, meaning the algorythm is ignoring the recognized vehicles. 
+Outside these detection zones, the frame will have a grey color, meaning the algorythm is ignoring the recognized vehicles. 
 The algorithm (actually very naive one) is located in the app, of course. 
-If the application sees that at least in two different detection points the system caught the same vehicle, it means that there is a high likelihood of surveillance.  
+If the application sees that at least in two different detection zones the system caught the same vehicle, it means that there is a high likelihood of surveillance.  
 Even if the Rekor Scout agent could pick a partial license plate number, the algorythm is designed to decide if this partial algorythm is a substring of already recognized license plate.
 When an event of Detection occurred, the application will pop a floating view with the vehicle image and the other necessary meta-data.
 The user will be able to view a report to decide if the application truly detect a surveillance. 
-The user is provided with another view (a map) with all the points where the system encountered this vehicle. 
+The user is provided with another view (a map) with all the zones where the system encountered this vehicle. 
 In order to get an accurate results, the user must define an appropriate route for detection.
 * **Report View** - In this view the user can view two lists of vehicles: Those with high probability of surveillance, and those with a lower probability.
 Usually those with low probability will be vehicles with partial license plate number that matches a substring of another vehicle license number.
 * **Settings View** - This view contains a section to control the headless Jetson and a section to control some features of the application itself.
-    * **Jetson Disconnected** - This toggle button is readonly from the user point of view. When the user plug the iOS device (USB cable) to the Jetson, a peertalk connection is established. The toggle button is turned on.
+    * **Jetson Disconnected** - This toggle button is readonly from the user zone of view. When the user plug the iOS device (USB cable) to the Jetson, a peertalk connection is established. The toggle button is turned on.
     * **Cameras View** - In this view the user can select an already defined camera, send a command to the Jetson (Mediation subsystem will invoke [RegularGrab](Pylon/SingleCamera/RegularGrab.cpp) process), and receive a stream of video from the selected camera. 
   Camera View is disabled while ALPRDaemon is Up, and vice versa.
     * **Define Cameras** - In order to activate a connected camera the user must define (only once) a camera (i.e. add serial number, define camera name).
-    * **ALPRDaemon is Down** - This toggle button is readonly from the user point of view. When on, it indicates that the application is receiving signals from the Jetson, saying that the daemon is up.
+    * **ALPRDaemon is Down** - This toggle button is readonly from the user zone of view. When on, it indicates that the application is receiving signals from the Jetson, saying that the daemon is up.
     * **Start All Daemons** - Turning on the toggle button sends a command to the Jetson, instructing the Mediation subsystem to start the Rekor Scout daemon. 
   The Mediation also invokes the [Grab_MultipleCameras](Pylon/MultipleCameras/Grab_MultipleCameras.cpp) process to operate grabbing frames from all cameras and to write the grabbed frames to the corresponding video loop devices.
-    * **Detect Radius** - Detection radius of a detection point (i.e. the violet circle on map) can be configured.
+    * **Detect Radius** - Detection radius of a detection zone (i.e. the violet circle on map) can be configured.
   Remember that only inside this region the vehicle recognition data is processed by the detection algorythm.
-    * **In point Radius** - This value helps the algorythm to mark that your vehicle reached the current detection point.
+    * **In Zone Radius** - This value helps the algorythm to mark that your vehicle reached the current detection zone.
     * **Recency Filter** - In some cases the application receives multiple packets of data of the same vehicle within a very short interval. This is useless. Recency-filter, when turned on, filters packets of data of the same vehicle if the time interval between the two packets is less than 5 secs or if the distance between the two locations, where captured, is less than 50 meters.
     * **Reset All Data** - Clear all saved detection routes, reports and other stuff. 
 

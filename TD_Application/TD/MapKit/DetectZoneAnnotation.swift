@@ -1,5 +1,5 @@
 //
-//  DetectPointAnnotation.swift
+//  DetectZoneAnnotation.swift
 //  TailDetector
 //
 //  Created by Sharon Wolfovich on 18/01/2021.
@@ -9,14 +9,14 @@ import MapKit
 import SwiftUI
 import Combine
 
-class DetectPointAnnotation: MKPointAnnotation {
+class DetectZoneAnnotation: MKPointAnnotation {
     
     var state = State.edit(value: .newAtEdge)
     var fence: MKCircle!
     var route: MKRoute!
     var annotationData: AnnotationData!
-    static var FENCE_RADIUS = 200.0 // If inside this range it means that I am inside the point (for detection purposes)
-    static var IN_POINT_RADIUS = 50.0 // If inside this range it means that I visited the point (for instruction purposes)
+    static var FENCE_RADIUS = 200.0 // If inside this range it means that I am inside the zone (for detection purposes)
+    static var IN_ZONE_RADIUS = 50.0 // If inside this range it means that I visited the zone (for instruction purposes)
 
     var uuid: UUID! {
         get {
@@ -77,13 +77,13 @@ class DetectPointAnnotation: MKPointAnnotation {
         //self.index = index
         self.coordinate = CLLocationCoordinate2D(latitude: annotationData.latitude, longitude: annotationData.longitude)
         self.title = annotationData.title
-        self.fence = MKCircle(center: self.coordinate, radius: CLLocationDistance(DetectPointAnnotation.FENCE_RADIUS))
+        self.fence = MKCircle(center: self.coordinate, radius: CLLocationDistance(DetectZoneAnnotation.FENCE_RADIUS))
     }
 }
 
-extension DetectPointAnnotation.EditState: Equatable {
+extension DetectZoneAnnotation.EditState: Equatable {
     
-    public static func ==(lhs: DetectPointAnnotation.EditState, rhs: DetectPointAnnotation.EditState) -> Bool {
+    public static func ==(lhs: DetectZoneAnnotation.EditState, rhs: DetectZoneAnnotation.EditState) -> Bool {
         
         switch (lhs,rhs) {
         case (.newAtEdge, .newAtEdge):
@@ -101,9 +101,9 @@ extension DetectPointAnnotation.EditState: Equatable {
     }
 }
 
-extension DetectPointAnnotation.State: Equatable {
+extension DetectZoneAnnotation.State: Equatable {
     
-    public static func ==(lhs: DetectPointAnnotation.State, rhs: DetectPointAnnotation.State) -> Bool {
+    public static func ==(lhs: DetectZoneAnnotation.State, rhs: DetectZoneAnnotation.State) -> Bool {
         
         switch (lhs,rhs) {
         case (.detect, .detect):

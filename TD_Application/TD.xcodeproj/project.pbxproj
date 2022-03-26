@@ -42,11 +42,11 @@
 		A64E3CEB25BE236100641AE0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A64E3CE925BE236100641AE0 /* LaunchScreen.storyboard */; };
 		A64E3CF525BE242A00641AE0 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A64E3CF425BE242A00641AE0 /* MapView.swift */; };
 		A64E3CF825BE246300641AE0 /* MapViewCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A64E3CF725BE246300641AE0 /* MapViewCoordinator.swift */; };
-		A64E3CFB25BE259100641AE0 /* DetectPointAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A64E3CFA25BE259100641AE0 /* DetectPointAnnotation.swift */; };
+		A64E3CFB25BE259100641AE0 /* DetectZoneAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A64E3CFA25BE259100641AE0 /* DetectZoneAnnotation.swift */; };
 		A64E3CFE25BE25B400641AE0 /* CustomCalloutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A64E3CFD25BE25B400641AE0 /* CustomCalloutView.swift */; };
 		A64E3D0125BE25D900641AE0 /* CustomMKMarkerAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A64E3D0025BE25D900641AE0 /* CustomMKMarkerAnnotationView.swift */; };
 		A64E3D0425BE271500641AE0 /* LinkedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = A64E3D0325BE271500641AE0 /* LinkedList.swift */; };
-		A6509A0425E658720082E101 /* DetectPointAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6509A0325E658720082E101 /* DetectPointAnnotationView.swift */; };
+		A6509A0425E658720082E101 /* DetectZoneAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6509A0325E658720082E101 /* DetectZoneAnnotationView.swift */; };
 		A6509A0925E659FA0082E101 /* ClusterAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6509A0825E659FA0082E101 /* ClusterAnnotationView.swift */; };
 		A6509A0E25E664110082E101 /* UIColorExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6509A0D25E664110082E101 /* UIColorExt.swift */; };
 		A65A491F25FA1B0600283C65 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A65A491E25FA1B0600283C65 /* SettingsView.swift */; };
@@ -166,11 +166,11 @@
 		A64E3CEC25BE236100641AE0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A64E3CF425BE242A00641AE0 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		A64E3CF725BE246300641AE0 /* MapViewCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewCoordinator.swift; sourceTree = "<group>"; };
-		A64E3CFA25BE259100641AE0 /* DetectPointAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetectPointAnnotation.swift; sourceTree = "<group>"; };
+		A64E3CFA25BE259100641AE0 /* DetectZoneAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetectZoneAnnotation.swift; sourceTree = "<group>"; };
 		A64E3CFD25BE25B400641AE0 /* CustomCalloutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCalloutView.swift; sourceTree = "<group>"; };
 		A64E3D0025BE25D900641AE0 /* CustomMKMarkerAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomMKMarkerAnnotationView.swift; sourceTree = "<group>"; };
 		A64E3D0325BE271500641AE0 /* LinkedList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkedList.swift; sourceTree = "<group>"; };
-		A6509A0325E658720082E101 /* DetectPointAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetectPointAnnotationView.swift; sourceTree = "<group>"; };
+		A6509A0325E658720082E101 /* DetectZoneAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetectZoneAnnotationView.swift; sourceTree = "<group>"; };
 		A6509A0825E659FA0082E101 /* ClusterAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClusterAnnotationView.swift; sourceTree = "<group>"; };
 		A6509A0D25E664110082E101 /* UIColorExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExt.swift; sourceTree = "<group>"; };
 		A65A491E25FA1B0600283C65 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
@@ -486,7 +486,7 @@
 				A60B08B725D5A21400E303E7 /* DetectView.swift */,
 				A602385325DEECBC002FB947 /* PlateImageView.swift */,
 				A65C5E3225E5A7260064F7A4 /* DetectedAnnotationView.swift */,
-				A6509A0325E658720082E101 /* DetectPointAnnotationView.swift */,
+				A6509A0325E658720082E101 /* DetectZoneAnnotationView.swift */,
 				A6509A0825E659FA0082E101 /* ClusterAnnotationView.swift */,
 				A6B0F5A225E69E2F00557B37 /* AllDetectionsPreview.swift */,
 				A60D8D3525E83D4100E5C360 /* DetectViewCarPreview.swift */,
@@ -501,7 +501,7 @@
 			children = (
 				A60DDE7D25CFFBCF009DC105 /* MyOverlay.swift */,
 				A60DDE7625CF5985009DC105 /* MyCircleOverlay.swift */,
-				A64E3CFA25BE259100641AE0 /* DetectPointAnnotation.swift */,
+				A64E3CFA25BE259100641AE0 /* DetectZoneAnnotation.swift */,
 				A602384925DEBF05002FB947 /* MapKitHelper.swift */,
 				A65C5E3725E5A80E0064F7A4 /* DetectedAnnotation.swift */,
 				A6650F6325F966BC000BFF49 /* DetectedAnnotationWrapper.swift */,
@@ -669,7 +669,7 @@
 				A6D527AC2641243B005D5F65 /* PacketBuilder.swift in Sources */,
 				A6B0F5A325E69E2F00557B37 /* AllDetectionsPreview.swift in Sources */,
 				A66E1A9F26654177001B0FF4 /* Settings.swift in Sources */,
-				A6509A0425E658720082E101 /* DetectPointAnnotationView.swift in Sources */,
+				A6509A0425E658720082E101 /* DetectZoneAnnotationView.swift in Sources */,
 				A64E3CDC25BE236000641AE0 /* AppDelegate.swift in Sources */,
 				A64E3CDE25BE236000641AE0 /* SceneDelegate.swift in Sources */,
 				A64E3D0425BE271500641AE0 /* LinkedList.swift in Sources */,
@@ -688,7 +688,7 @@
 				A62A0C442654F8B70027443C /* DaemonsRowView.swift in Sources */,
 				A65A491F25FA1B0600283C65 /* SettingsView.swift in Sources */,
 				A6650F6425F966BC000BFF49 /* DetectedAnnotationWrapper.swift in Sources */,
-				A64E3CFB25BE259100641AE0 /* DetectPointAnnotation.swift in Sources */,
+				A64E3CFB25BE259100641AE0 /* DetectZoneAnnotation.swift in Sources */,
 				A64DDF6725D83A9300D650C3 /* EditView.swift in Sources */,
 				A64E3CFE25BE25B400641AE0 /* CustomCalloutView.swift in Sources */,
 				A683A7AF25DFE68E0041FCB2 /* HashElement.swift in Sources */,

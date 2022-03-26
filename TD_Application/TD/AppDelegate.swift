@@ -75,7 +75,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         removeObjects(entity: AnnotationData.self, sortKey: "index")
         removeObjects(entity: DetectedObject.self, sortKey: "uuid")
                 
-        // Override point for customization after application launch.
+        // Override zone for customization after application launch.
         return true
     }
 
