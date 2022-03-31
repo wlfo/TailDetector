@@ -9,7 +9,7 @@ import Foundation
 import MapKit
 
 // Todo: Move outside
-protocol DetectViewUpdater {
+protocol DetectionViewUpdater {
     
     // Decide if packet should be dropped according to location.
     // If not dropped update view with license plate preview

@@ -50,7 +50,7 @@ struct SingleDetectionInstancesPreview: View {
             
             ForEach(packets!) { dataForView in
                 VStack (alignment: .leading){
-                    DetectViewCarPreview(image: dataForView.fullImage)
+                    DetectionViewCarPreview(image: dataForView.fullImage)
                     
                     if dataForView.licensePlateNumber != packet.licensePlateNumber {
                         HStack {

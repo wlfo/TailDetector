@@ -1,5 +1,5 @@
 //
-//  DetectViewCoordinator.swift
+//  DetectionViewCoordinator.swift
 //  TD
 //
 //  Created by Sharon Wolfovich on 13/02/2021.
@@ -10,7 +10,7 @@ import MapKit
 import UIKit
 import CoreData
 
-final class DetectViewCoordinator: NSObject, MKMapViewDelegate, AnnotationDataDelegate, DetectViewUpdater, CLLocationManagerDelegate {
+final class DetectionViewCoordinator: NSObject, MKMapViewDelegate, AnnotationDataDelegate, DetectionViewUpdater, CLLocationManagerDelegate {
     
     //var instruction: String = ""
     var instruction: Instruction?
@@ -37,7 +37,7 @@ final class DetectViewCoordinator: NSObject, MKMapViewDelegate, AnnotationDataDe
     static let SLOW = 5.0
     static let MEDIUM = 20.0
     static let FAST = 30.0
-    //var regionFactor: Double = 1.0//DetectViewCoordinator.SLOW
+    //var regionFactor: Double = 1.0//DetectionViewCoordinator.SLOW
     var oldRegionFactor: Double = 3.0
     
     
@@ -228,11 +228,11 @@ final class DetectViewCoordinator: NSObject, MKMapViewDelegate, AnnotationDataDe
             
             
             /*if factor <= 12 {
-                self.regionFactor = DetectViewCoordinator.SLOW
+                self.regionFactor = DetectionViewCoordinator.SLOW
             } else if factor > 12 && factor < 25 {
-                self.regionFactor = DetectViewCoordinator.MEDIUM
+                self.regionFactor = DetectionViewCoordinator.MEDIUM
             } else {
-                self.regionFactor = DetectViewCoordinator.FAST
+                self.regionFactor = DetectionViewCoordinator.FAST
             }*/
             
             // Instead of using discrete numbers I am using continuous values (speed)

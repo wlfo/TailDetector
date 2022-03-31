@@ -24,7 +24,7 @@ struct SingleDetectionPreview: View {
             if packetProcessor.detectPreviewDetails != nil {
                 let packet = packetProcessor.getSingleDetectedForView()
                 VStack (alignment: .leading){
-                    DetectViewCarPreview(image: packetProcessor.getSingleDetectedForView().fullImage)
+                    DetectionViewCarPreview(image: packetProcessor.getSingleDetectedForView().fullImage)
                     
                     HStack {
                         Text("Model:").fontWeight(.thin)

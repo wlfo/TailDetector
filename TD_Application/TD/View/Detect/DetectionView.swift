@@ -1,5 +1,5 @@
 //
-//  DetectView.swift
+//  DetectionView.swift
 //  TD
 //
 //  Created by Sharon Wolfovich on 11/02/2021.
@@ -11,8 +11,8 @@ import CoreData
 import Combine
 import AVFoundation
 
-struct DetectView: View, SegmentedMapTypeDelegate {
-    @ObservedObject var instruction: DetectViewCoordinator.Instruction
+struct DetectionView: View, SegmentedMapTypeDelegate {
+    @ObservedObject var instruction: DetectionViewCoordinator.Instruction
     @ObservedObject var packetProcessor: PacketProcessor // Need to observe this object for PlateImageView
     @EnvironmentObject var ptc: PTCommandInterface
     @EnvironmentObject var ptvi: PTVehicleInterface
@@ -32,7 +32,7 @@ struct DetectView: View, SegmentedMapTypeDelegate {
     
     
     // Todo: Has to be ObservableObject
-    var mpCoordinator: DetectViewCoordinator!
+    var mpCoordinator: DetectionViewCoordinator!
     let mapView: DetectMapView!
     let MINIMUM_DETECT_ZONES = 3
     
@@ -40,7 +40,7 @@ struct DetectView: View, SegmentedMapTypeDelegate {
     
     init(selected: Binding<TabName>){
         let map = MKMapView()
-        mpCoordinator = DetectViewCoordinator(map: map)
+        mpCoordinator = DetectionViewCoordinator(map: map)
         mapView = DetectMapView(map: map, mpCoordinator: mpCoordinator)
         
         self.packetProcessor = mpCoordinator.packetProcessor
@@ -300,14 +300,14 @@ struct DetectView: View, SegmentedMapTypeDelegate {
     }
 }
 
-struct DetectView_Previews: PreviewProvider {
+struct DetectionView_Previews: PreviewProvider {
     static var previews: some View {
-        DetectView(selected: .constant(TabName.Detect))
+        DetectionView(selected: .constant(TabName.Detect))
     }
 }
 
 // Testing
-extension DetectView {
+extension DetectionView {
     func preparePacket(plateImageNamed: String, carImageNamed: String, plateNumber: String, latitude: Double, longitude: Double) -> Packet {
         let packet = Packet()
         packet.plateImage = UIImage(named: plateImageNamed)

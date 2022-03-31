@@ -1,5 +1,5 @@
 //
-//  DetectViewCarPreview.swift
+//  DetectionViewCarPreview.swift
 //  TD
 //
 //  Created by Sharon Wolfovich on 25/02/2021.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct DetectViewCarPreview: View {
+struct DetectionViewCarPreview: View {
     let image: UIImage!
     @State var showDetailView: Bool = false
     

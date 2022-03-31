@@ -21,7 +21,7 @@ class PacketProcessor: ObservableObject {
     var uncertainPreviewDetailsArray: [Packet] = []
     var detectPreviewDetailsArray: [Packet] = []
     var detectionsCount: Int = 0
-    var dropDelegate: DetectViewUpdater!
+    var dropDelegate: DetectionViewUpdater!
     var hashTables = [HashTable<String, Packet>]()
     var detections = [[(Packet, Packet)]]()
     let HASHTABLE_CAPACITY = 1559
@@ -33,7 +33,7 @@ class PacketProcessor: ObservableObject {
     
     typealias intervalMethod = (_ currentPacket: Packet, _ historyPacket: Packet, _ interval: Double) -> Bool
     
-    init(dropDelegate: DetectViewUpdater) {
+    init(dropDelegate: DetectionViewUpdater) {
         self.dropDelegate = dropDelegate
         //self.detectPreviewDetailsArray = [Packet]()
     }
@@ -116,7 +116,7 @@ class PacketProcessor: ObservableObject {
             
             DispatchQueue.main.async {
                 
-                // Send preview to DetectView to indicate and surround with gray border
+                // Send preview to DetectionView to indicate and surround with gray border
                 self.cameraId = packet.cameraId
                 self.plateImage = packet.plateImage
                 self.plateImageFrameColor = UIColor.systemGray
@@ -127,7 +127,7 @@ class PacketProcessor: ObservableObject {
             packet.drop = false
             DispatchQueue.main.async {
                 
-                // Send preview to DetectView to indicate and surround with purple border
+                // Send preview to DetectionView to indicate and surround with purple border
                 self.cameraId = packet.cameraId
                 self.plateImage = packet.plateImage
                 self.plateImageFrameColor = UIColor.systemPurple
@@ -135,7 +135,7 @@ class PacketProcessor: ObservableObject {
             
             // Send the packet to Working Queue and forget.
             // The Object that (maybe here...) will process the packet according to Queue
-            // will act as ObservableObject for DetectView too.
+            // will act as ObservableObject for DetectionView too.
             packet.detectionZoneIndex = result.0
             addAndDetect(packet: packet, detectionZoneIndex: result.0)
             print("at dp index: \(result.0)")

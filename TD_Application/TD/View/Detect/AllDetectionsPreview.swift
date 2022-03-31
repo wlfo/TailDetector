@@ -69,7 +69,7 @@ struct AllDetectionsPreview: View {
                     
                     
                     VStack (alignment: .leading){
-                        DetectViewCarPreview(image: dataForView.fullImage)
+                        DetectionViewCarPreview(image: dataForView.fullImage)
                         
                         HStack {
                             Text("Model:").fontWeight(.thin)

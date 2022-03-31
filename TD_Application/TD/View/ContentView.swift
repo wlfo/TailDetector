@@ -29,7 +29,7 @@ struct ContentView: View {
                             Text("Edit") }).tag(TabName.Edit)
             
             
-            DetectView(selected: $selectedView)
+            DetectionView(selected: $selectedView)
                 .tabItem({
                             Image(systemName: "car.2.fill")
                             Text("Detect") }).tag(TabName.Detect)
