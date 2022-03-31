@@ -265,7 +265,7 @@ struct DetectView: View, SegmentedMapTypeDelegate {
             }
         })
             .alert(isPresented: $showingAlert) {
-                Alert(title: Text("Not Enough Detect Zones!"), message: Text("You must edit at least three detect zones."), dismissButton: .default(Text("OK!")))
+                Alert(title: Text("Not Enough Detection Zones!"), message: Text("You must edit at least three detection zones."), dismissButton: .default(Text("OK!")))
             }
             .sheet(isPresented: self.$showDetailView) {
                 PlateImageView(plateImage: $packetProcessor.plateImage, plateImageFrameColor: $packetProcessor.plateImageFrameColor, cameraId: $packetProcessor.cameraId)

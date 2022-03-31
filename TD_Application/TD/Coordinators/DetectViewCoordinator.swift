@@ -16,8 +16,8 @@ final class DetectViewCoordinator: NSObject, MKMapViewDelegate, AnnotationDataDe
     var instruction: Instruction?
     var map: MKMapView
     var initialized = false
-    var dpList: LinkedList<DetectZoneAnnotation>
-    var dpList4Instructions: LinkedList<DetectZoneAnnotation>
+    var dpList: LinkedList<DetectionZoneAnnotation>
+    var dpList4Instructions: LinkedList<DetectionZoneAnnotation>
     var tapGestureRecognizer: UIGestureRecognizer!
     var packetProcessor: PacketProcessor!
     var userLocation: MKUserLocation!
@@ -47,8 +47,8 @@ final class DetectViewCoordinator: NSObject, MKMapViewDelegate, AnnotationDataDe
         //self.factor = 1.0
         
         self.map = map
-        self.dpList = LinkedList<DetectZoneAnnotation>()
-        self.dpList4Instructions = LinkedList<DetectZoneAnnotation>()
+        self.dpList = LinkedList<DetectionZoneAnnotation>()
+        self.dpList4Instructions = LinkedList<DetectionZoneAnnotation>()
         //self.userTrackingButton = MKUserTrackingButton(mapView: map)
         //self._showAlert = showingAlert
         //self._alertMessage = alertMessage
@@ -97,7 +97,7 @@ final class DetectViewCoordinator: NSObject, MKMapViewDelegate, AnnotationDataDe
     // Calculate Driving instruction to the next detection zone
     private func calculateInstruction(){
         
-        // If already reached the next detectzone, remove it from list
+        // If already reached the next detection zone, remove it from list
         if !removeDetectionZoneIfThere(){
             // End of mission
             
@@ -107,7 +107,7 @@ final class DetectViewCoordinator: NSObject, MKMapViewDelegate, AnnotationDataDe
             return
         }
         
-        // Calculate instructions from my location to the next detectzone
+        // Calculate instructions from my location to the next detection zone
         let userLocation = getUserLocation()
         
         // Origin
@@ -284,16 +284,16 @@ final class DetectViewCoordinator: NSObject, MKMapViewDelegate, AnnotationDataDe
             return nil
         }
         
-        if annotation is DetectZoneAnnotation {
-            var view = mapView.dequeueReusableAnnotationView(withIdentifier: "DetectZoneAnnotationView") as? DetectZoneAnnotationView
+        if annotation is DetectionZoneAnnotation {
+            var view = mapView.dequeueReusableAnnotationView(withIdentifier: "DetectionZoneAnnotationView") as? DetectionZoneAnnotationView
             
             if view == nil {
-                view = DetectZoneAnnotationView(annotation: annotation, reuseIdentifier: "DetectZoneAnnotationView")
+                view = DetectionZoneAnnotationView(annotation: annotation, reuseIdentifier: "DetectionZoneAnnotationView")
                 view?.canShowCallout = false
             }
             
             // Put index inside
-            let dpAnnotation = annotation as? DetectZoneAnnotation
+            let dpAnnotation = annotation as? DetectionZoneAnnotation
             view?.glyphText = String(dpAnnotation!.index)
             view?.annotation = annotation
             view?.markerTintColor = UIColor.systemGreen
@@ -406,7 +406,7 @@ final class DetectViewCoordinator: NSObject, MKMapViewDelegate, AnnotationDataDe
         }*/
     }
     
-    private func createDirection(dpAnnotation: DetectZoneAnnotation ,coordOrigin: CLLocationCoordinate2D, coordDestination: CLLocationCoordinate2D){
+    private func createDirection(dpAnnotation: DetectionZoneAnnotation ,coordOrigin: CLLocationCoordinate2D, coordDestination: CLLocationCoordinate2D){
         
         // If already loaded no need to reconstruct denuevo
         if dpAnnotation.route != nil {
@@ -439,7 +439,7 @@ final class DetectViewCoordinator: NSObject, MKMapViewDelegate, AnnotationDataDe
     }
     
     // Create Annotation View and attach Annotation to it
-    fileprivate func reconstructAnnotations(_ dpAnnotation: DetectZoneAnnotation?) {
+    fileprivate func reconstructAnnotations(_ dpAnnotation: DetectionZoneAnnotation?) {
         var coordOrigin: CLLocationCoordinate2D!
         if dpList.head?.value == dpAnnotation {
             coordOrigin = map.userLocation.coordinate
@@ -466,8 +466,8 @@ final class DetectViewCoordinator: NSObject, MKMapViewDelegate, AnnotationDataDe
         // Do something
     }
     
-    // Comparing two DetectZoneAnnotation by UUID
-    func predicate(lhs: DetectZoneAnnotation, rhs: DetectZoneAnnotation) -> Bool{
+    // Comparing two DetectionZoneAnnotation by UUID
+    func predicate(lhs: DetectionZoneAnnotation, rhs: DetectionZoneAnnotation) -> Bool{
         return lhs.uuid == rhs.uuid
     }
     
@@ -497,9 +497,9 @@ final class DetectViewCoordinator: NSObject, MKMapViewDelegate, AnnotationDataDe
             switch annotationsResult {
             case let .success(annotations):
                 if annotations.count > 0 {
-                    //let dpList = LinkedList<DetectZoneAnnotation>()
+                    //let dpList = LinkedList<DetectionZoneAnnotation>()
                     annotations.forEach{
-                        let dp = DetectZoneAnnotation(annotationData: $0)
+                        let dp = DetectionZoneAnnotation(annotationData: $0)
                         if self.dpList.contains(pred: self.predicate, value: dp) {
                             // Do nothing
                         } else {
@@ -512,7 +512,7 @@ final class DetectViewCoordinator: NSObject, MKMapViewDelegate, AnnotationDataDe
                         print("count \(self.dpList.count)")
                     }
                     
-                    var allAnnotations = [DetectZoneAnnotation]()
+                    var allAnnotations = [DetectionZoneAnnotation]()
                     
                     if self.dpList.count > 0 {
                         for i in 0...self.dpList.count - 1 {
@@ -604,14 +604,14 @@ final class DetectViewCoordinator: NSObject, MKMapViewDelegate, AnnotationDataDe
     
     // Check if reached next detection zone
     func removeDetectionZoneIfThere() -> Bool {
-        let nextDetectZoneCoord = self.dpList4Instructions.first?.value.coordinate
+        let nextDetectionZoneCoord = self.dpList4Instructions.first?.value.coordinate
         
-        if nextDetectZoneCoord == nil {
+        if nextDetectionZoneCoord == nil {
             return false
         }
         
         // Check if around User Location
-        if isInRadius(coord1: nextDetectZoneCoord!, coord2: self.userLocation.coordinate, radius: DetectZoneAnnotation.IN_ZONE_RADIUS) {
+        if isInRadius(coord1: nextDetectionZoneCoord!, coord2: self.userLocation.coordinate, radius: DetectionZoneAnnotation.IN_ZONE_RADIUS) {
             _ = self.dpList4Instructions.remove(node: self.dpList4Instructions.first!)
         }
         
@@ -625,19 +625,19 @@ final class DetectViewCoordinator: NSObject, MKMapViewDelegate, AnnotationDataDe
     
     // Check if inside one of the detection zones
     // location: the current location where I detected a vehicle
-    func drop(location: CLLocationCoordinate2D) -> (detectZoneIndex: Int, drop: Bool) {
+    func drop(location: CLLocationCoordinate2D) -> (detectionZoneIndex: Int, drop: Bool) {
         
         // Check if around the initial User Location
-        if isInRadius(coord1: location, coord2: self.initialUserLocation.coordinate, radius: DetectZoneAnnotation.FENCE_RADIUS) {
+        if isInRadius(coord1: location, coord2: self.initialUserLocation.coordinate, radius: DetectionZoneAnnotation.FENCE_RADIUS) {
             return (0, false)
         }
         
         if dpList.count > 0 {
             for index in 0...dpList.count - 1 {
-                let detectZone = dpList.nodeAt(index: index)!.value as DetectZoneAnnotation
+                let detectionZone = dpList.nodeAt(index: index)!.value as DetectionZoneAnnotation
                 
                 // Check if distance is less than the radius of the detection zone
-                if isInRadius(coord1: location, coord2: detectZone.coordinate, radius: DetectZoneAnnotation.FENCE_RADIUS) {
+                if isInRadius(coord1: location, coord2: detectionZone.coordinate, radius: DetectionZoneAnnotation.FENCE_RADIUS) {
                     return (index + 1, false)
                 }
             }

@@ -21,13 +21,13 @@ class MapViewCoordinator: NSObject, MKMapViewDelegate, ReplaceRemoveDelegate, An
     var map: MKMapView
     var initialized = false
     var decenter = false
-    var dpList: LinkedList<DetectZoneAnnotation>
+    var dpList: LinkedList<DetectionZoneAnnotation>
     var tapGestureRecognizer: UIGestureRecognizer!
     let userTrackingButton: MKUserTrackingButton!
     
     init(map: MKMapView) {
         self.map = map
-        self.dpList = LinkedList<DetectZoneAnnotation>()
+        self.dpList = LinkedList<DetectionZoneAnnotation>()
         self.userTrackingButton = MKUserTrackingButton(mapView: map)
         //self._showAlert = showingAlert
         //self._alertMessage = alertMessage
@@ -48,7 +48,7 @@ class MapViewCoordinator: NSObject, MKMapViewDelegate, ReplaceRemoveDelegate, An
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         
-        // Check if no more in Edit State - To prevent adding more detect zones after already detection started
+        // Check if no more in Edit State - To prevent adding more detection zones after already detection started
         let appState = Atomic<AppState>(AppState.shared)
         if appState.value.state != AppState.State.edit {
             return nil
@@ -58,15 +58,15 @@ class MapViewCoordinator: NSObject, MKMapViewDelegate, ReplaceRemoveDelegate, An
             return nil
         }
         
-        var view = mapView.dequeueReusableAnnotationView(withIdentifier: "DetectZoneAnnotationView") as? CustomMKMarkerAnnotationView
+        var view = mapView.dequeueReusableAnnotationView(withIdentifier: "DetectionZoneAnnotationView") as? CustomMKMarkerAnnotationView
         
         if view == nil {
-            view = CustomMKMarkerAnnotationView(annotation: annotation, reuseIdentifier: "DetectZoneAnnotationView")
+            view = CustomMKMarkerAnnotationView(annotation: annotation, reuseIdentifier: "DetectionZoneAnnotationView")
             view?.canShowCallout = false
         }
         
         // Put index inside
-        let dpAnnotation = annotation as? DetectZoneAnnotation
+        let dpAnnotation = annotation as? DetectionZoneAnnotation
         view?.glyphText = String(dpAnnotation!.index)
         view?.annotation = annotation
         view?.markerTintColor = UIColor.systemGreen
@@ -210,10 +210,10 @@ class MapViewCoordinator: NSObject, MKMapViewDelegate, ReplaceRemoveDelegate, An
             
             // Alert If in state of Update Route
             map.annotations.forEach {
-                let annotation = $0 as? DetectZoneAnnotation
-                if annotation?.state == DetectZoneAnnotation.State.edit(value: .update) {
+                let annotation = $0 as? DetectionZoneAnnotation
+                if annotation?.state == DetectionZoneAnnotation.State.edit(value: .update) {
                     annotation?.state = .edit(value: .newAtEdge)
-                    //self.alertMessage = AlertMessage(title: "Update Detect Zone", message: "Exit Update Mode.")
+                    //self.alertMessage = AlertMessage(title: "Update Detection Zone", message: "Exit Update Mode.")
                     //self.showAlert = true
                 }
             }
@@ -233,12 +233,12 @@ class MapViewCoordinator: NSObject, MKMapViewDelegate, ReplaceRemoveDelegate, An
             if let mapView = gesture.view as? MKMapView {
                 let zone = gesture.location(in: mapView)
                 let coordinate = mapView.convert(zone, toCoordinateFrom: mapView)
-                var dpAnnotation: DetectZoneAnnotation!
+                var dpAnnotation: DetectionZoneAnnotation!
                 
-                // 1. Locate DetectZoneAnnotation marked with update
-                var annotationMarkedUpdate: DetectZoneAnnotation!
+                // 1. Locate DetectionZoneAnnotation marked with update
+                var annotationMarkedUpdate: DetectionZoneAnnotation!
                 map.annotations.forEach {
-                    let annotation = $0 as? DetectZoneAnnotation
+                    let annotation = $0 as? DetectionZoneAnnotation
                     if annotation?.state == .edit(value: .update) {
                         annotationMarkedUpdate = annotation!
                     }
@@ -247,13 +247,13 @@ class MapViewCoordinator: NSObject, MKMapViewDelegate, ReplaceRemoveDelegate, An
                 let index = dpList.count + 1
                 guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {return}
                 let context = appDelegate.persistentContainer.viewContext
-                //var annotationData = AnnotationData(context: context, coordinate: coordinate, title: "Detect Zone", index: Int32(index))
+                //var annotationData = AnnotationData(context: context, coordinate: coordinate, title: "Detection Zone", index: Int32(index))
                 
-                let annotationData = AnnotationData(context: context, longitude: coordinate.longitude, latitude: coordinate.latitude, title: "Detect Zone", index: Int32(index))
+                let annotationData = AnnotationData(context: context, longitude: coordinate.longitude, latitude: coordinate.latitude, title: "Detection Zone", index: Int32(index))
                 
                 print("annotationData.title = " + annotationData.title!)
                 
-                dpAnnotation = DetectZoneAnnotation(annotationData: annotationData)
+                dpAnnotation = DetectionZoneAnnotation(annotationData: annotationData)
                 
                 print("dpAnnotation.title = " + dpAnnotation.title!)
                 
@@ -295,7 +295,7 @@ class MapViewCoordinator: NSObject, MKMapViewDelegate, ReplaceRemoveDelegate, An
         }
     }
     
-    private func createDirection(dpAnnotation: DetectZoneAnnotation ,coordOrigin: CLLocationCoordinate2D, coordDestination: CLLocationCoordinate2D){
+    private func createDirection(dpAnnotation: DetectionZoneAnnotation ,coordOrigin: CLLocationCoordinate2D, coordDestination: CLLocationCoordinate2D){
         
         // Origin
         let placeOrigin = MKPlacemark(coordinate: coordOrigin)
@@ -340,7 +340,7 @@ class MapViewCoordinator: NSObject, MKMapViewDelegate, ReplaceRemoveDelegate, An
         
         // Remove from context
         let node = dpList.nodeAt(index: index)
-        let annotation = node!.value as DetectZoneAnnotation
+        let annotation = node!.value as DetectionZoneAnnotation
         DataManager.shared.delete(annotationData: annotation.annotationData)
         
         
@@ -356,7 +356,7 @@ class MapViewCoordinator: NSObject, MKMapViewDelegate, ReplaceRemoveDelegate, An
     }
     
     // Create Annotation View and attach Annotation to it
-    fileprivate func reconstructAnnotations(_ dpAnnotation: DetectZoneAnnotation?) {
+    fileprivate func reconstructAnnotations(_ dpAnnotation: DetectionZoneAnnotation?) {
         var coordOrigin: CLLocationCoordinate2D!
         if dpList.head?.value == dpAnnotation {
             coordOrigin = map.userLocation.coordinate
@@ -380,10 +380,10 @@ class MapViewCoordinator: NSObject, MKMapViewDelegate, ReplaceRemoveDelegate, An
     }
     
     // Handle actions such as deletion and update
-    fileprivate func handleAnnotation(annotationToHandle: DetectZoneAnnotation?, handleList: (Int) -> ()) {
+    fileprivate func handleAnnotation(annotationToHandle: DetectionZoneAnnotation?, handleList: (Int) -> ()) {
         
         var annotationIdx: Int!
-        var allAnnotations = [DetectZoneAnnotation]()
+        var allAnnotations = [DetectionZoneAnnotation]()
         // 2. Delete all Directions, Fences.
         // 3. Delete annotations from map
         for i in 0...dpList.count - 1 {
@@ -464,8 +464,8 @@ class MapViewCoordinator: NSObject, MKMapViewDelegate, ReplaceRemoveDelegate, An
         callout.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         callout.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
         
-        // Get index from DetectZone
-        let dpAnnotation = view.annotation as? DetectZoneAnnotation
+        // Get index from DetectionZone
+        let dpAnnotation = view.annotation as? DetectionZoneAnnotation
         let index = dpAnnotation?.index
         
         // Create Callout content
@@ -490,11 +490,11 @@ class MapViewCoordinator: NSObject, MKMapViewDelegate, ReplaceRemoveDelegate, An
     }
     
     func buttonUpdate(tag: Int) {
-        // 1. Locate DetectZoneAnnotation for Update
+        // 1. Locate DetectionZoneAnnotation for Update
         //let tag = sender.tag
-        var annotationForUpdate: DetectZoneAnnotation!
+        var annotationForUpdate: DetectionZoneAnnotation!
         map.annotations.forEach {
-            let annotation = $0 as? DetectZoneAnnotation
+            let annotation = $0 as? DetectionZoneAnnotation
             if annotation?.index == tag {
                 annotationForUpdate = annotation!
                 annotationForUpdate.state = .edit(value: .update)
@@ -512,14 +512,14 @@ class MapViewCoordinator: NSObject, MKMapViewDelegate, ReplaceRemoveDelegate, An
     }
     
     func buttonDelete(tag: Int){
-        //self.alertMessage = AlertMessage(title: "Delete Detect Zone", message: "You are about to remove current Detection Zone.")
+        //self.alertMessage = AlertMessage(title: "Delete Detection Zone", message: "You are about to remove current Detection Zone.")
         //self.showAlert = true
         //print("buttonDelete: start index")
         
-        // Locate DetectZoneAnnotation for deleteion
-        var annotationForDelete: DetectZoneAnnotation!
+        // Locate DetectionZoneAnnotation for deleteion
+        var annotationForDelete: DetectionZoneAnnotation!
         map.annotations.forEach {
-            let annotation = $0 as? DetectZoneAnnotation
+            let annotation = $0 as? DetectionZoneAnnotation
             if annotation?.index == tag {
                 annotationForDelete = annotation!
             }

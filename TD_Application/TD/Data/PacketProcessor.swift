@@ -102,7 +102,7 @@ class PacketProcessor: ObservableObject {
         return detectPreviewDetails
     }
     
-    // Check if packet is outside detect zones (if outside - drop)
+    // Check if packet is outside detection zones (if outside - drop)
     // Update View with License Plate image
     // Perform detection process
     func processPacket(packet: Packet){
@@ -136,49 +136,49 @@ class PacketProcessor: ObservableObject {
             // Send the packet to Working Queue and forget.
             // The Object that (maybe here...) will process the packet according to Queue
             // will act as ObservableObject for DetectView too.
-            packet.detectZoneIndex = result.0
-            addAndDetect(packet: packet, detectZoneIndex: result.0)
+            packet.detectionZoneIndex = result.0
+            addAndDetect(packet: packet, detectionZoneIndex: result.0)
             print("at dp index: \(result.0)")
         }
     }
     
-    // Check if treat detectZoneIndex from 0 or from 1
-    func addAndDetect(packet: Packet, detectZoneIndex: Int){
-        if detectZoneIndex < 0 {
+    // Check if treat detectionZoneIndex from 0 or from 1
+    func addAndDetect(packet: Packet, detectionZoneIndex: Int){
+        if detectionZoneIndex < 0 {
             return
         }
         
         if PacketProcessor.applyRecencyCheck {
             
             // If recent (time) do not continue with processing
-            if isRecent(packet: packet, currentHashTable: hashTables[detectZoneIndex], interval: TIME_BETWEEN_SAME_LP_SEC, predicate: isRecentInTime){
+            if isRecent(packet: packet, currentHashTable: hashTables[detectionZoneIndex], interval: TIME_BETWEEN_SAME_LP_SEC, predicate: isRecentInTime){
                 return
             }
             
             // If recent (distance) do not continue with processing
-            if isRecent(packet: packet, currentHashTable: hashTables[detectZoneIndex], interval: DISTANCE_BETWEEN_SAME_LP_METER, predicate: isRecentInDistance){
+            if isRecent(packet: packet, currentHashTable: hashTables[detectionZoneIndex], interval: DISTANCE_BETWEEN_SAME_LP_METER, predicate: isRecentInDistance){
                 return
             }
         }
         
         // If zero zone or first zone
-        if detectZoneIndex < 2 {
-            addFirstDetect(packet: packet, currentHashTable: hashTables[detectZoneIndex])
+        if detectionZoneIndex < 2 {
+            addFirstDetect(packet: packet, currentHashTable: hashTables[detectionZoneIndex])
         } else {
             
             // array represents the current new license plate
             var array = [String]()
             div(array: &array, key: packet.licensePlateNumber) //Detect
             
-            for index in 0...detectZoneIndex-1 {
+            for index in 0...detectionZoneIndex-1 {
                 // Todo: Pass this detection epiphany upward
-                detect(substrings: array, currentPacket: packet, formerHashTable: hashTables[index], currentHashTable: hashTables[detectZoneIndex])
+                detect(substrings: array, currentPacket: packet, formerHashTable: hashTables[index], currentHashTable: hashTables[detectionZoneIndex])
             }
             
             // After trying to detect update all substrings inside the current HashTable
             // Remember that packet still contains the original longest substring
             for i in 0...array.count-1 {
-                hashTables[detectZoneIndex].updateValue(packet, forKey: array[i])
+                hashTables[detectionZoneIndex].updateValue(packet, forKey: array[i])
                 //print("\(i): \(array[i])")
             }
             
@@ -407,9 +407,9 @@ class PacketProcessor: ObservableObject {
      In this function we perform detection algorithm to check if there exist an entry matched to the new packet object. When finish add the current packet to the designated Hash Table
      
      - parameter substrings: Array of substrings from the original license plate number (i.e for string length m we will get (m^2 - 3m + 2)/2)
-     - parameter currentPacket: Packet of the current detect zone
-     - parameter formerHashTable: Hash Table of former detect zones previous this one
-     - parameter currentHashTable: Hash Table of thr current detect zone
+     - parameter currentPacket: Packet of the current detection zone
+     - parameter formerHashTable: Hash Table of former detection zones previous this one
+     - parameter currentHashTable: Hash Table of thr current detection zone
      
      - returns: Void
      - warning: No Warning
@@ -444,7 +444,7 @@ class PacketProcessor: ObservableObject {
                     }
                     
                     print("match: \(substrings[i]) from ancestor: \(substrings[0]) is \(hlp)")
-                    detections[currentPacket.detectZoneIndex].append((currentPacket, e.element))
+                    detections[currentPacket.detectionZoneIndex].append((currentPacket, e.element))
                     identifiersHashTable.updateValue(currentPacket, forKey: currentPacket.licensePlateNumber)
                     var detectType = DetectedAnnotation.DetectType.car
                     

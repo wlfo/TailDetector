@@ -31,10 +31,10 @@ struct SettingsView: View {
                 
                 Section(header: Text("App Settings")){
                     Stepper("Detect Radius \(self.radius)m", value: $radius, in: 0...2000, step: 200, onEditingChanged: {_ in
-                        DetectZoneAnnotation.FENCE_RADIUS = Double(self.radius)
+                        DetectionZoneAnnotation.FENCE_RADIUS = Double(self.radius)
                     })
                     Stepper("In zone Radius \(self.inRadius)m", value: $inRadius, in: 0...200, step: 50, onEditingChanged: {_ in
-                        DetectZoneAnnotation.IN_ZONE_RADIUS = Double(self.inRadius)
+                        DetectionZoneAnnotation.IN_ZONE_RADIUS = Double(self.inRadius)
                     })
                     
                     // Row view to enable Recency filter of subsequent packets

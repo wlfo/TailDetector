@@ -21,7 +21,7 @@ class Packet: ObservableObject, Identifiable {
     var latitude: Double!
     var longitude: Double!
     var drop: Bool = false
-    var detectZoneIndex: Int = -1
+    var detectionZoneIndex: Int = -1
     var city: String!
     var country: String!
     var street: String!

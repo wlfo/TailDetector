@@ -73,14 +73,14 @@ final class ReportViewCoordinator: NSObject, MKMapViewDelegate {
         }
         
         guard let annotation = annotation as? DetectedAnnotationWrapper else { return nil }
-        switch annotation.detectZoneAnnotation.type {
+        switch annotation.detectionZoneAnnotation.type {
         
         case .car:
-            view = CarAnnotationView(annotation: annotation.detectZoneAnnotation, reuseIdentifier: CarAnnotationView.ReuseID)
+            view = CarAnnotationView(annotation: annotation.detectionZoneAnnotation, reuseIdentifier: CarAnnotationView.ReuseID)
         case .foot:
-            view = FootAnnotationView(annotation: annotation.detectZoneAnnotation, reuseIdentifier: FootAnnotationView.ReuseID)
+            view = FootAnnotationView(annotation: annotation.detectionZoneAnnotation, reuseIdentifier: FootAnnotationView.ReuseID)
         case .uncertain:
-            view = UncertainAnnotationView(annotation: annotation.detectZoneAnnotation, reuseIdentifier: UncertainAnnotationView.ReuseID)
+            view = UncertainAnnotationView(annotation: annotation.detectionZoneAnnotation, reuseIdentifier: UncertainAnnotationView.ReuseID)
         }
         
         view.animatesWhenAdded = true
@@ -118,7 +118,7 @@ final class ReportViewCoordinator: NSObject, MKMapViewDelegate {
             annotation.type = detectedObject.dType
             
             
-            let detectedAnnotationWrapper = DetectedAnnotationWrapper(detectZoneAnnotation: annotation)
+            let detectedAnnotationWrapper = DetectedAnnotationWrapper(detectionZoneAnnotation: annotation)
             detectedAnnotationWrapper.image = UIImage(data: locationData.image!)
             
             self.map.addAnnotation(detectedAnnotationWrapper)

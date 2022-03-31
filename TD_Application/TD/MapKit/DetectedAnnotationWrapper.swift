@@ -10,15 +10,15 @@ import MapKit
 
 class DetectedAnnotationWrapper: NSObject, MKAnnotation {
     var coordinate: CLLocationCoordinate2D
-    let detectZoneAnnotation: DetectedAnnotation!
+    let detectionZoneAnnotation: DetectedAnnotation!
     var image: UIImage!
     var title: String?
     var subtitle: String?
     
-    init(detectZoneAnnotation: DetectedAnnotation){
-        self.detectZoneAnnotation = detectZoneAnnotation
-        self.coordinate = detectZoneAnnotation.coordinate
-        self.title = detectZoneAnnotation.title
-        self.subtitle = detectZoneAnnotation.subtitle
+    init(detectionZoneAnnotation: DetectedAnnotation){
+        self.detectionZoneAnnotation = detectionZoneAnnotation
+        self.coordinate = detectionZoneAnnotation.coordinate
+        self.title = detectionZoneAnnotation.title
+        self.subtitle = detectionZoneAnnotation.subtitle
     }
 }

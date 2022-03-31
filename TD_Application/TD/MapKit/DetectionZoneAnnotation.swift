@@ -1,5 +1,5 @@
 //
-//  DetectZoneAnnotation.swift
+//  DetectionZoneAnnotation.swift
 //  TailDetector
 //
 //  Created by Sharon Wolfovich on 18/01/2021.
@@ -9,7 +9,7 @@ import MapKit
 import SwiftUI
 import Combine
 
-class DetectZoneAnnotation: MKPointAnnotation {
+class DetectionZoneAnnotation: MKPointAnnotation {
     
     var state = State.edit(value: .newAtEdge)
     var fence: MKCircle!
@@ -77,13 +77,13 @@ class DetectZoneAnnotation: MKPointAnnotation {
         //self.index = index
         self.coordinate = CLLocationCoordinate2D(latitude: annotationData.latitude, longitude: annotationData.longitude)
         self.title = annotationData.title
-        self.fence = MKCircle(center: self.coordinate, radius: CLLocationDistance(DetectZoneAnnotation.FENCE_RADIUS))
+        self.fence = MKCircle(center: self.coordinate, radius: CLLocationDistance(DetectionZoneAnnotation.FENCE_RADIUS))
     }
 }
 
-extension DetectZoneAnnotation.EditState: Equatable {
+extension DetectionZoneAnnotation.EditState: Equatable {
     
-    public static func ==(lhs: DetectZoneAnnotation.EditState, rhs: DetectZoneAnnotation.EditState) -> Bool {
+    public static func ==(lhs: DetectionZoneAnnotation.EditState, rhs: DetectionZoneAnnotation.EditState) -> Bool {
         
         switch (lhs,rhs) {
         case (.newAtEdge, .newAtEdge):
@@ -101,9 +101,9 @@ extension DetectZoneAnnotation.EditState: Equatable {
     }
 }
 
-extension DetectZoneAnnotation.State: Equatable {
+extension DetectionZoneAnnotation.State: Equatable {
     
-    public static func ==(lhs: DetectZoneAnnotation.State, rhs: DetectZoneAnnotation.State) -> Bool {
+    public static func ==(lhs: DetectionZoneAnnotation.State, rhs: DetectionZoneAnnotation.State) -> Bool {
         
         switch (lhs,rhs) {
         case (.detect, .detect):
