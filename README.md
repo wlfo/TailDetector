@@ -28,6 +28,10 @@ This single-board computer is actually the core of the system. This component ma
 ## iOS Application
 The iOS application is the front of the system. It draws the detection routes, starts the surveillance detection phase, and finally, creates corresponding alerts. The iOS application communicates with the Jetson Xavier via the USBMUXD daemon. Although wireless interfaces (for example, Wi-Fi) for such communication can be simpler and more intuitive, I chose to implement all iOS-Jetson communication using PeerTalk over a USB connection (that is, a "closed system"). This choice can be considered one more step toward reducing possible attack surface. There is at least one downside to this: the iOS device must be connected to the Jetson during the detection phase.
 
+<p align="center">
+  <img src="readme/All4Views.png" width="1200" title="Four Main Views">
+</p>
+
 # General scheme of the system
 
 ## An overview of how the system works
