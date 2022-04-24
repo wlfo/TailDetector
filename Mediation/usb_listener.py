@@ -6,7 +6,6 @@ import socket
 
 from pprint import pprint
 from peertalk.PeerTalk import PeerTalk
-from peertalk.PeerTalkVehicle import PeerTalkVehicle
 from peertalk.PTGeneralWrapper import PTGeneralWrapper
 from peertalk.TransmissionType import TransmissionType
 
@@ -194,7 +193,7 @@ while True:
             continue
 
         if pt_vehicle is None:
-            pt_vehicle = PeerTalkVehicle(2347, 0, None) #2)
+            pt_vehicle = PeerTalk(2347, 0, None) #2)
         elif is_socket_closed(pt_vehicle.p_sock):
             # Socket maybe closed due to swift app down or first time run
             pt_vehicle_connect = False
